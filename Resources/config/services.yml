@@ -1,0 +1,6 @@
+parameters:
+    sinch.service.class: Fresh\SinchBundle\Service\SinchService
+
+services:
+    sinch:
+        class: %sinch.service.class%

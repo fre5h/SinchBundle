@@ -1,0 +1,34 @@
+{
+    "name": "fresh/sinch-bundle",
+    "description": "Provides integration with Sinch API.",
+    "keywords": ["bundle", "symfony", "sinch", "api", "client", "sms", "verification"],
+    "homepage": "https://github.com/fre5h/SinchBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artem Genvald",
+            "email": "genvaldartem@gmail.com",
+            "role": "Creator"
+        }
+    ],
+    "support": {
+        "email": "genvaldartem@gmail.com",
+        "issues": "https://github.com/fre5h/SinchBundle/issues"
+    },
+    "require": {
+        "php": ">=5.6.0",
+        "symfony/symfony": "~2.7",
+        "guzzlehttp/guzzle": "~6.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.0",
+        "squizlabs/php_codesniffer": "~2.3"
+    },
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Fresh\\SinchBundle\\": ""
+        }
+    }
+}
