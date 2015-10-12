@@ -8,7 +8,7 @@ Provides integration with Sinch API.
 
 * Improve docs
 * Add tests
-* Add more Sinch features
+* Add more Sinch features (check sms status, etc.)
 
 ## Requirements
 
@@ -69,7 +69,7 @@ Inside some controller
 $sinch = $this->get('sinch');
 // Set the outbound number where you want to send the sms
 $phoneNumber = 1234567890; 
-$response = $sinch->sendSMS($phoneNumber, 'Your SMS message');
+$response = $sinch->sendSMS($phoneNumber, 'Your SMS test');
 
 // $response is an object which implements Psr\Http\Message\ResponseInterface
 $response->getStatusCode();
