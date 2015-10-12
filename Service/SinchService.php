@@ -83,4 +83,68 @@ class SinchService
 
         return $response;
     }
+
+    /**
+     * Get status of sent SMS
+     *
+     * @param int $messageId Message ID
+     *
+     * @return string SMS status (Successful, Unknown)
+     *
+     * @throws GuzzleException
+     */
+    public function getStatusOfSMS($messageId)
+    {
+        $response = $this->sendRequestToCheckStatusOfSMS($messageId);
+        $result = '';
+
+        if (isset($response['status']) && array_key_exists('status', $response)) {
+            $result = $response['status'];
+        }
+
+        return $result;
+    }
+
+    /**
+     * Returns true if SMS with some ID was sent successfully, false - otherwise
+     *
+     * @param int $messageId Message ID
+     *
+     * @return bool
+     */
+    public function smsIsSent($messageId)
+    {
+        $response = $this->sendRequestToCheckStatusOfSMS($messageId);
+
+        $result = false;
+        if (isset($response['status']) && 'Successful' === $response['status']) {
+            $result = true;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Send request to check status of SMS
+     *
+     * @param int $messageId Message ID
+     *
+     * @return array|null
+     */
+    private function sendRequestToCheckStatusOfSMS($messageId)
+    {
+        $uri = '/v1/message/status/'.$messageId;
+
+        $response = $this->guzzleHTTPClient->get($uri, ['auth' => [$this->key, $this->secret]]);
+
+        $result = null;
+        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
+            'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        ) {
+            $content = $response->getBody()->getContents();
+            $result = json_decode($content, true);
+        };
+
+        return $result;
+    }
 }

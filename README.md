@@ -18,6 +18,10 @@ Provides integration with Sinch API.
 
 ## Installation
 
+### Create application for Sinch
+
+Sing up in [Sinch.com](https://www.sinch.com) and [create a new app](https://www.sinch.com/dashboard/#/quickstart).
+
 ### Install via Composer
 
 ```php composer.phar require fresh/sinch-bundle='dev-master'```
@@ -61,18 +65,40 @@ fresh_sinch:
 
 ## Using
 
-### Example
-
-Inside some controller
+### Example of sending SMS
 
 ```php
 $sinch = $this->get('sinch');
-// Set the outbound number where you want to send the sms
+// Set the outbound number where you want to send the SMS
 $phoneNumber = 1234567890; 
-$response = $sinch->sendSMS($phoneNumber, 'Your SMS test');
+$response = $sinch->sendSMS($phoneNumber, 'Your message');
 
 // $response is an object which implements Psr\Http\Message\ResponseInterface
 $response->getStatusCode();
 $response->getBody()->getContents();
 // and other methods
+```
+
+### Example of checking SMS status
+
+#### Get the status of SMS
+
+```php
+$sinch = $this->get('sinch');
+// You get the ID of message in successful response after sending a sms
+$messageId = 123456789;
+$response = $sinch->getStatusOfSMS($messageId);
+// Status is a string: Successful, Unknown or smt else
+```
+
+#### Just check if SMS was sent
+
+```php
+$sinch = $this->get('sinch');
+$messageId = 123456789;
+if ($sinch->smsIsSent($messageId)) {
+    echo 'SMS was sent';
+} else {
+    echo 'SMS was not sent';
+}
 ```
