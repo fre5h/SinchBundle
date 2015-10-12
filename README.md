@@ -71,12 +71,9 @@ fresh_sinch:
 $sinch = $this->get('sinch');
 // Set the outbound number where you want to send the SMS
 $phoneNumber = 1234567890; 
-$response = $sinch->sendSMS($phoneNumber, 'Your message');
-
-// $response is an object which implements Psr\Http\Message\ResponseInterface
-$response->getStatusCode();
-$response->getBody()->getContents();
-// and other methods
+$messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+// If success then the ID of sent message is returned (it is an integer value)
+echo $messageId;
 ```
 
 ### Example of checking SMS status
@@ -87,8 +84,8 @@ $response->getBody()->getContents();
 $sinch = $this->get('sinch');
 // You get the ID of message in successful response after sending a sms
 $messageId = 123456789;
-$response = $sinch->getStatusOfSMS($messageId);
-// Status is a string: Successful, Unknown or smt else
+$status = $sinch->getStatusOfSMS($messageId);
+// Status is a string: Successful, Unknown or something else
 ```
 
 #### Just check if SMS was sent

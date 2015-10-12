@@ -65,7 +65,7 @@ class SinchService
      * @param int    $phoneNumber Phone number
      * @param string $messageText Message text
      *
-     * @return ResponseInterface
+     * @return int Message ID
      *
      * @throws GuzzleException
      */
@@ -81,7 +81,19 @@ class SinchService
             ]
         );
 
-        return $response;
+        $messageId = null;
+        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
+            'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        ) {
+            $content = $response->getBody()->getContents();
+            $content = json_decode($content, true);
+
+            if (isset($content['messageId']) && array_key_exists('messageId', $content)) {
+                $messageId = $content['messageId'];
+            }
+        };
+
+        return $messageId;
     }
 
     /**
