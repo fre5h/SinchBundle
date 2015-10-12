@@ -10,7 +10,7 @@ Provides integration with [Sinch.com](https://www.sinch.com) SMS API.
 
 * Improve docs
 * Add tests
-* Add more Sinch features
+* Add more Sinch features (sign requests for production apps)
 
 ## Requirements
 
