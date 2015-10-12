@@ -55,7 +55,7 @@ in your Sinch dashboard.
 
 ### Update config.yml
 
-Add the following lines for in `config.yml` file:
+Add the following lines to `config.yml` file:
 
 ```yml
 fresh_sinch:
