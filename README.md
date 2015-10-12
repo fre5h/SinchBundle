@@ -1,6 +1,8 @@
 # SinchBundle
 
-Provides integration with Sinch API.
+Provides integration with [Sinch.com](https://www.sinch.com) SMS API.
+
+![Sinch Logo](/Resources/images/sinch-logo.png)
 
 **Currently in development process!!!**
 
@@ -8,7 +10,7 @@ Provides integration with Sinch API.
 
 * Improve docs
 * Add tests
-* Add more Sinch features (check sms status, etc.)
+* Add more Sinch features
 
 ## Requirements
 
