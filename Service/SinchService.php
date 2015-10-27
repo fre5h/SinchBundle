@@ -12,7 +12,7 @@ namespace Fresh\SinchBundle\Service;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Psr\Http\Message\ResponseInterface;
+use Fresh\SinchBundle\Sms\SmsStatus;
 
 /**
  * SinchService
@@ -62,24 +62,26 @@ class SinchService
     /**
      * Send SMS
      *
-     * @param int    $phoneNumber Phone number
-     * @param string $messageText Message text
+     * @param int         $phoneNumber Phone number
+     * @param string      $messageText Message text
+     * @param string|null $from        From
      *
      * @return int Message ID
      *
      * @throws GuzzleException
      */
-    public function sendSMS($phoneNumber, $messageText)
+    public function sendSMS($phoneNumber, $messageText, $from = null)
     {
         $uri = '/v1/sms/'.$phoneNumber;
 
-        $response = $this->guzzleHTTPClient->post(
-            $uri,
-            [
-                'auth' => [$this->key, $this->secret],
-                'json' => ['message' => $messageText],
-            ]
-        );
+        $body = [
+            'auth' => [$this->key, $this->secret],
+            'json' => ['message' => $messageText],
+        ];
+        if (null !== $from) {
+            $body['json']['from'] = $from;
+        }
+        $response = $this->guzzleHTTPClient->post($uri, $body);
 
         $messageId = null;
         if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
@@ -99,9 +101,11 @@ class SinchService
     /**
      * Get status of sent SMS
      *
+     * Available SMS statuses: Successful, Pending, Faulted, Unknown
+     *
      * @param int $messageId Message ID
      *
-     * @return string SMS status (Successful, Unknown)
+     * @return string SMS status
      *
      * @throws GuzzleException
      */
@@ -118,18 +122,18 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID was sent successfully, false - otherwise
+     * Returns true if SMS with some ID was sent successfully, otherwise returns false
      *
      * @param int $messageId Message ID
      *
-     * @return bool
+     * @return bool True if message is sent, otherwise - false
      */
-    public function smsIsSent($messageId)
+    public function smsIsSentSuccessfully($messageId)
     {
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && 'Successful' === $response['status']) {
+        if (isset($response['status']) && SmsStatus::SUCCESSFUL === $response['status']) {
             $result = true;
         }
 
