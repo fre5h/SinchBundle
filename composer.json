@@ -1,6 +1,6 @@
 {
     "name": "fresh/sinch-bundle",
-    "description": "Provides integration with Sinch API.",
+    "description": "Provides integration with Sinch.com SMS API.",
     "keywords": ["bundle", "symfony", "sinch", "api", "client", "sms", "verification"],
     "homepage": "https://github.com/fre5h/SinchBundle",
     "type": "symfony-bundle",
