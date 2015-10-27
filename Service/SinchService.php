@@ -81,7 +81,8 @@ class SinchService
         if (null !== $from) {
             $body['json']['from'] = $from;
         }
-        $response = $this->guzzleHTTPClient->post($uri, $body);
+        $headers = ['X-Timestamp' => new \DateTime('now')];
+        $response = $this->guzzleHTTPClient->post($uri, $body, ['headers' => $headers]);
 
         $messageId = null;
         if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
