@@ -62,7 +62,7 @@ class SinchService
     /**
      * Send SMS
      *
-     * @param int         $phoneNumber Phone number
+     * @param string      $phoneNumber Phone number
      * @param string      $messageText Message text
      * @param string|null $from        From
      *
@@ -72,17 +72,17 @@ class SinchService
      */
     public function sendSMS($phoneNumber, $messageText, $from = null)
     {
-        $uri = '/v1/sms/'.$phoneNumber;
+        $uri = '/v1/sms/'.$phoneNumber; // @todo validate phone number
 
         $body = [
-            'auth' => [$this->key, $this->secret],
-            'json' => ['message' => $messageText],
+            'auth'    => [$this->key, $this->secret],
+            'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')], // ISO 8601 date format
+            'json'    => ['message' => $messageText],
         ];
         if (null !== $from) {
             $body['json']['from'] = $from;
         }
-        $headers = ['X-Timestamp' => new \DateTime('now')];
-        $response = $this->guzzleHTTPClient->post($uri, $body, ['headers' => $headers]);
+        $response = $this->guzzleHTTPClient->post($uri, $body);
 
         $messageId = null;
         if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
