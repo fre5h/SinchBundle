@@ -2,9 +2,21 @@
 
 Provides integration with [Sinch.com](https://www.sinch.com) SMS API.
 
+**Currently in development process!!! Things can be changed at any moment**
+
 ![Sinch Logo](/Resources/images/sinch-logo.png)
 
-**Currently in development process!!!**
+[![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/fre5h/SinchBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/fre5h/SinchBundle/)
+[![Build Status](https://img.shields.io/travis/fre5h/SinchBundle.svg?style=flat-square)](https://travis-ci.org/fre5h/SinchBundle)
+[![CodeCov](https://img.shields.io/codecov/c/github/fre5h/SinchBundle.svg?style=flat-square)](https://codecov.io/github/fre5h/SinchBundle)
+[![License](https://img.shields.io/packagist/l/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
+[![Latest Stable Version](https://img.shields.io/packagist/v/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
+[![Total Downloads](https://img.shields.io/packagist/dt/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
+[![Dependency Status](https://img.shields.io/versioneye/d/php/fresh:sinch-bundle.svg?style=flat-square)](https://www.versioneye.com/user/projects/562fcca536d0ab00190015a7)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4.svg?style=flat-square)](https://insight.sensiolabs.com/projects/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4)
+[![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/fre5h/SinchBundle?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![knpbundles.com](http://knpbundles.com/fre5h/SinchBundle/badge-short)](http://knpbundles.com/fre5h/SinchBundle)
 
 ## TODO
 
@@ -53,7 +65,7 @@ parameters:
 ```
 
 During the composer update you have to enter your own key and secret for your Sinch application, which you can find
-in your Sinch dashboard.
+in your [Sinch dashboard](https://www.sinch.com/dashboard/#/apps).
 
 ### Update config.yml
 
@@ -90,14 +102,14 @@ $status = $sinch->getStatusOfSMS($messageId);
 // Status is a string: Successful, Unknown or something else
 ```
 
-#### Just check if SMS was sent
+#### Just check if SMS was sent successfully
 
 ```php
 $sinch = $this->get('sinch');
 $messageId = 123456789;
-if ($sinch->smsIsSent($messageId)) {
-    echo 'SMS was sent';
+if ($sinch->smsIsSentSuccessfully($messageId)) {
+    echo 'SMS was sent successfully';
 } else {
-    echo 'SMS was not sent';
+    echo 'SMS was not sent successfully';
 }
 ```
