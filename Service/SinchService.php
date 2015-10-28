@@ -152,7 +152,11 @@ class SinchService
     {
         $uri = '/v1/message/status/'.$messageId;
 
-        $response = $this->guzzleHTTPClient->get($uri, ['auth' => [$this->key, $this->secret]]);
+        $body = [
+            'auth'    => [$this->key, $this->secret],
+            'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
+        ];
+        $response = $this->guzzleHTTPClient->get($uri, $body);
 
         $result = null;
         if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
