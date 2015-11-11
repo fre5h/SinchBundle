@@ -10,9 +10,10 @@
 
 namespace Fresh\SinchBundle\Service;
 
+use Fresh\SinchBundle\Exception\SinchPaymentRequiredException;
+use Fresh\SinchBundle\Sms\SmsStatus;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use Fresh\SinchBundle\Sms\SmsStatus;
 
 /**
  * SinchService
@@ -69,6 +70,7 @@ class SinchService
      * @return int Message ID
      *
      * @throws GuzzleException
+     * @throws SinchPaymentRequiredException When run out of money
      */
     public function sendSMS($phoneNumber, $messageText, $from = null)
     {
@@ -83,9 +85,14 @@ class SinchService
             $body['json']['from'] = $from;
         }
         $response = $this->guzzleHTTPClient->post($uri, $body);
+        $statusCode = $response->getStatusCode();
+
+        if (402 === $statusCode) {
+            throw new SinchPaymentRequiredException();
+        }
 
         $messageId = null;
-        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
+        if (200 === $statusCode && $response->hasHeader('Content-Type') &&
             'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
@@ -147,6 +154,8 @@ class SinchService
      * @param int $messageId Message ID
      *
      * @return array|null
+     *
+     * @throws SinchPaymentRequiredException When run out of money
      */
     private function sendRequestToCheckStatusOfSMS($messageId)
     {
@@ -157,9 +166,14 @@ class SinchService
             'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
         ];
         $response = $this->guzzleHTTPClient->get($uri, $body);
+        $statusCode = $response->getStatusCode();
+
+        if (402 === $statusCode) {
+            throw new SinchPaymentRequiredException();
+        }
 
         $result = null;
-        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
+        if (200 === $statusCode && $response->hasHeader('Content-Type') &&
             'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
