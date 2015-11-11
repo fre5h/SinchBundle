@@ -13,6 +13,7 @@ namespace Fresh\SinchBundle\Service;
 use Fresh\SinchBundle\Exception\SinchPaymentRequiredException;
 use Fresh\SinchBundle\Sms\SmsStatus;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 
 /**
@@ -84,15 +85,18 @@ class SinchService
         if (null !== $from) {
             $body['json']['from'] = $from;
         }
-        $response = $this->guzzleHTTPClient->post($uri, $body);
-        $statusCode = $response->getStatusCode();
 
-        if (402 === $statusCode) {
-            throw new SinchPaymentRequiredException();
+        try {
+            $response = $this->guzzleHTTPClient->post($uri, $body);
+        } catch (ClientException $e) {
+            // Sinch return 402 code when application run out of money
+            if (402 === $e->getCode()) {
+                throw new SinchPaymentRequiredException();
+            }
         }
 
         $messageId = null;
-        if (200 === $statusCode && $response->hasHeader('Content-Type') &&
+        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
             'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
@@ -165,15 +169,20 @@ class SinchService
             'auth'    => [$this->key, $this->secret],
             'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
         ];
-        $response = $this->guzzleHTTPClient->get($uri, $body);
-        $statusCode = $response->getStatusCode();
 
-        if (402 === $statusCode) {
-            throw new SinchPaymentRequiredException();
+        $response = $this->guzzleHTTPClient->get($uri, $body);
+
+        try {
+            $response = $this->guzzleHTTPClient->get($uri, $body);
+        } catch (ClientException $e) {
+            // Sinch return 402 code when application run out of money
+            if (402 === $e->getCode()) {
+                throw new SinchPaymentRequiredException();
+            }
         }
 
         $result = null;
-        if (200 === $statusCode && $response->hasHeader('Content-Type') &&
+        if (200 === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
             'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
