@@ -8,4 +8,4 @@ filter:
     - vendor/*
 
 before_commands:
-  - "composer install --prefer-source"
+  - "composer install --prefer-dist"
