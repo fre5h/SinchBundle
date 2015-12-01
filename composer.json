@@ -25,7 +25,6 @@
         "phpunit/phpunit": "~5.0",
         "squizlabs/php_codesniffer": "~2.3"
     },
-    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Fresh\\SinchBundle\\": ""
