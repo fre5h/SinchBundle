@@ -12,11 +12,11 @@ namespace Fresh\SinchBundle\Service;
 
 use Fresh\SinchBundle\Exception\BadRequest\SinchInvalidRequestException;
 use Fresh\SinchBundle\Exception\BadRequest\SinchMissingParameterException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchForbiddenRequestException;
+use Fresh\SinchBundle\Exception\BadRequest\SinchParameterValidationException;
+use Fresh\SinchBundle\Exception\Forbidden\SinchForbiddenRequestException;
+use Fresh\SinchBundle\Exception\Forbidden\SinchInvalidAuthorizationSchemeException;
+use Fresh\SinchBundle\Exception\Forbidden\SinchNoVerifiedPhoneNumberException;
 use Fresh\SinchBundle\Exception\InternalServerError\SinchInternalErrorException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchInvalidAuthorizationSchemeException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchNoVerifiedPhoneNumberException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchParameterValidationException;
 use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
 use Fresh\SinchBundle\Exception\Unauthorized\SinchIllegalAuthorizationHeaderException;
 use Fresh\SinchBundle\Helper\SinchErrorCode;
