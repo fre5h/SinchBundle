@@ -121,7 +121,7 @@ $messageId = '+13155555552';
 $status = $sinch->getStatusOfSMS($messageId);
 ```
 
-#### Helper methods for checkicng concrete SMS status
+#### Helper methods for checking concrete SMS status
 
 ```php
 // Return true or false
@@ -139,7 +139,7 @@ try {
     // Some logic related to SMS processing...
 } catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
     $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
-    // Here you can send for example urgent emails to admin users
+    // Here you can, for example, send urgent emails to admin users
     // to notify that your Sinch account run out of money
 }
 ```
