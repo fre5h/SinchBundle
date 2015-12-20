@@ -100,7 +100,7 @@ fresh_sinch:
 $sinch = $this->get('sinch');
 
 // Set the outbound number where you want to send the SMS
-$phoneNumber = '+13155555552'; 
+$phoneNumber = '+13155555552';
 $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
 
 // If success then the ID of sent message is returned (it is an integer value)
@@ -115,13 +115,13 @@ echo $messageId;
 $sinch = $this->get('sinch');
 
 // The ID of Sinch message you get after successful SMS sending
-$messageId = 123456789;
+$messageId = '+13155555552';
 
 // Status is a string with one of these values: pending, successful, faulted, unknown
 $status = $sinch->getStatusOfSMS($messageId);
 ```
 
-#### Helpers to check concrete SMS status
+#### Helper methods for checkicng concrete SMS status
 
 ```php
 // Return true or false
@@ -138,7 +138,7 @@ try {
     $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
     // Some logic related to SMS processing...
 } catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
-    $logger->error('SMS was not sent. Looks like your Sinch account run out of money');
+    $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
     // Here you can send for example urgent emails to admin users
     // to notify that your Sinch account run out of money
 }
