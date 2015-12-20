@@ -10,16 +10,7 @@
 
 namespace Fresh\SinchBundle\Service;
 
-use Fresh\SinchBundle\Exception\BadRequest\SinchInvalidRequestException;
-use Fresh\SinchBundle\Exception\BadRequest\SinchMissingParameterException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchForbiddenRequestException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchInternalErrorException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchInvalidAuthorizationSchemeException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchNoVerifiedPhoneNumberException;
-use Fresh\SinchBundle\Exception\InternalServerError\SinchParameterValidationException;
-use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
-use Fresh\SinchBundle\Exception\Unauthorized\SinchIllegalAuthorizationHeaderException;
-use Fresh\SinchBundle\Sms\SmsStatus;
+use Fresh\SinchBundle\Helper\SinchSmsStatus;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
@@ -88,6 +79,7 @@ class SinchService
      *
      * @return int Message ID
      *
+     * @throws \Fresh\SinchBundle\Exception\SinchException
      * @throws GuzzleException
      */
     public function sendSMS($phoneNumber, $messageText, $from = null)
@@ -109,7 +101,7 @@ class SinchService
         try {
             $response = $this->guzzleHTTPClient->post($uri, $body);
         } catch (ClientException $e) {
-            throw $this->createAppropriateSinchException($e);
+            throw SinchExceptionResolver::createAppropriateSinchException($e);
         }
 
         $messageId = null;
@@ -152,7 +144,7 @@ class SinchService
 
     // endregion
 
-    // region Check status helper methods
+    // region Check status helpers
 
     /**
      * Returns true if SMS with some ID was sent successfully, otherwise returns false
@@ -166,7 +158,7 @@ class SinchService
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SmsStatus::SUCCESSFUL === $response['status']) {
+        if (isset($response['status']) && SinchSmsStatus::SUCCESSFUL === $response['status']) {
             $result = true;
         }
 
@@ -185,7 +177,7 @@ class SinchService
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SmsStatus::PENDING === $response['status']) {
+        if (isset($response['status']) && SinchSmsStatus::PENDING === $response['status']) {
             $result = true;
         }
 
@@ -204,7 +196,7 @@ class SinchService
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SmsStatus::FAULTED === $response['status']) {
+        if (isset($response['status']) && SinchSmsStatus::FAULTED === $response['status']) {
             $result = true;
         }
 
@@ -223,7 +215,7 @@ class SinchService
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SmsStatus::UNKNOWN === $response['status']) {
+        if (isset($response['status']) && SinchSmsStatus::UNKNOWN === $response['status']) {
             $result = true;
         }
 
@@ -241,7 +233,7 @@ class SinchService
      *
      * @return array|null
      *
-     * @throws SinchPaymentRequiredException When run out of money
+     * @throws \Fresh\SinchBundle\Exception\SinchException
      */
     private function sendRequestToCheckStatusOfSMS($messageId)
     {
@@ -255,7 +247,7 @@ class SinchService
         try {
             $response = $this->guzzleHTTPClient->get($uri, $body);
         } catch (ClientException $e) {
-            throw $this->createAppropriateSinchException($e);
+            throw SinchExceptionResolver::createAppropriateSinchException($e);
         }
 
         $result = null;
@@ -268,162 +260,6 @@ class SinchService
         };
 
         return $result;
-    }
-
-    /**
-     * Create appropriate Sinch exception
-     *
-     * @param ClientException $e Exception
-     *
-     * @return \Exception|\Fresh\SinchBundle\Exception\SinchException
-     */
-    private function createAppropriateSinchException(ClientException $e)
-    {
-        $response = json_decode($e->getResponse()->getBody()->getContents(), true);
-        $responseStatusCode = $e->getCode();
-
-        $errorCode    = (int) $response['errorCode'];
-        $errorMessage = $response['message'];
-
-        $exception = null;
-
-        switch ($responseStatusCode) {
-            case Response::HTTP_BAD_REQUEST:
-                $exception = $this->getSinchExceptionForBadRequest($errorCode, $errorMessage);
-                break;
-            case Response::HTTP_UNAUTHORIZED:
-                $exception = $this->getSinchExceptionForUnauthorized($errorCode, $errorMessage);
-                break;
-            case Response::HTTP_PAYMENT_REQUIRED:
-                $exception = $this->getSinchExceptionForPaymentRequired($errorCode, $errorMessage);
-                break;
-            case Response::HTTP_FORBIDDEN:
-                $exception = $this->getSinchExceptionForForbidden($errorCode, $errorMessage);
-                break;
-            case Response::HTTP_INTERNAL_SERVER_ERROR:
-                $exception = $this->getSinchExceptionForInternalServerError($errorCode, $errorMessage);
-                break;
-        }
-
-        if (null === $exception) {
-            $exception = new \Exception('Unknown Sinch Error Code');
-        }
-
-        return $exception;
-    }
-
-    /**
-     * Get Sinch exception for bad request
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
-     *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
-     */
-    private function getSinchExceptionForBadRequest($errorCode, $errorMessage)
-    {
-        $exception = null;
-
-        switch ($errorCode) {
-            case SinchErrorCode::PARAMETER_VALIDATION:
-                $exception = new SinchParameterValidationException($errorMessage);
-                break;
-            case SinchErrorCode::MISSING_PARAMETER:
-                $exception = new SinchMissingParameterException($errorMessage);
-                break;
-            case SinchErrorCode::INVALID_REQUEST:
-                $exception = new SinchInvalidRequestException($errorMessage);
-                break;
-        }
-
-        return $exception;
-    }
-
-    /**
-     * Get Sinch exception for unauthorized
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
-     *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
-     */
-    private function getSinchExceptionForUnauthorized($errorCode, $errorMessage)
-    {
-        $exception = null;
-
-        if (SinchErrorCode::ILLEGAL_AUTHORIZATION_HEADER === $errorCode) {
-            $exception = new SinchIllegalAuthorizationHeaderException($errorMessage);
-        }
-
-        return $exception;
-    }
-
-    /**
-     * Get Sinch exception for payment required
-     *
-     * Sinch returns 402 code when application run out of money
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
-     *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
-     */
-    private function getSinchExceptionForPaymentRequired($errorCode, $errorMessage)
-    {
-        $exception = null;
-
-        if (SinchErrorCode::THERE_IS_NOT_ENOUGH_FUNDS_TO_SEND_THE_MESSAGE === $errorCode) {
-            $exception = new SinchPaymentRequiredException($errorMessage);
-        }
-
-        return $exception;
-    }
-
-    /**
-     * Get Sinch exception for forbidden
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
-     *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
-     */
-    private function getSinchExceptionForForbidden($errorCode, $errorMessage)
-    {
-        $exception = null;
-
-        switch ($errorCode) {
-            case SinchErrorCode::FORBIDDEN_REQUEST:
-                $exception = new SinchForbiddenRequestException($errorMessage);
-                break;
-            case SinchErrorCode::INVALID_AUTHORIZATION_SCHEME_FOR_CALLING_THE_METHOD:
-                $exception = new SinchInvalidAuthorizationSchemeException($errorMessage);
-                break;
-            case SinchErrorCode::NO_VERIFIED_PHONE_NUMBER_ON_YOUR_SINCH_ACCOUNT:
-            case SinchErrorCode::SANDBOX_SMS_ONLY_ALLOWED_TO_BE_SENT_TO_VERIFIED_NUMBERS:
-                $exception = new SinchNoVerifiedPhoneNumberException($errorMessage);
-                break;
-        }
-
-        return $exception;
-    }
-
-    /**
-     * Get Sinch exception for internal server error
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
-     *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
-     */
-    private function getSinchExceptionForInternalServerError($errorCode, $errorMessage)
-    {
-        $exception = null;
-
-        if (SinchErrorCode::INTERNAL_ERROR === $errorCode) {
-            $exception = new SinchInternalErrorException($errorMessage);
-        }
-
-        return $exception;
     }
 
     // endregion

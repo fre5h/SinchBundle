@@ -8,14 +8,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Fresh\SinchBundle\Sms;
+namespace Fresh\SinchBundle\Helper;
 
 /**
  * Sinch SMS Status
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-final class SmsStatus
+final class SinchSmsStatus
 {
     const PENDING    = 'pending';
     const SUCCESSFUL = 'successful';
