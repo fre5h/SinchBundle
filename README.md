@@ -2,7 +2,7 @@
 
 Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
-**Currently in development process!!! Things can be changed at any moment**
+> **Currently in development process! Things can be changed at any moment!**
 
 ![Sinch Logo](/Resources/images/sinch-logo.png)
 
@@ -22,7 +22,7 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 * Improve docs
 * Add tests
-* Add more Sinch features (sign requests for production apps)
+* Add more Sinch features
 
 ## Requirements
 
@@ -77,6 +77,21 @@ fresh_sinch:
     secret: "%sinch.secret%"
 ```
 
+## Exceptions
+
+| Response Status Code | Sinch Error Code |                  Sinch Error Message                    | Thrown Exception                                                                                                                                          |
+|:--------------------:|:----------------:|:--------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+|          400         |       40001      | Parameter validation                                    | [SinchParameterValidationException](./Exception/BadRequest/SinchParameterValidationException.php "SinchParameterValidationException")
+|          400         |       40002      | Missing parameter                                       | [SinchMissingParameterException](./Exception/BadRequest/SinchMissingParameterException.php "SinchMissingParameterException")
+|          400         |       40003      | Invalid request                                         | [SinchInvalidRequestException](./Exception/BadRequest/SinchInvalidRequestException.php "SinchInvalidRequestException")
+|          401         |       40100      | Illegal authorization header                            | [SinchIllegalAuthorizationHeaderException](./Exception/Unauthorized/SinchIllegalAuthorizationHeaderException.php "SinchIllegalAuthorizationHeaderException")
+|          402         |       40200      | There is not enough funds to send the message           | [SinchPaymentRequiredException](./Exception/PaymentRequired/SinchPaymentRequiredException.php "SinchPaymentRequiredException")
+|          403         |       40300      | Forbidden request                                       | [SinchForbiddenRequestException](./Exception/Forbidden/SinchForbiddenRequestException.php "SinchForbiddenRequestException")
+|          403         |       40301      | Invalid authorization scheme for calling the method     | [SinchInvalidAuthorizationSchemeException](./Exception/Forbidden/SinchInvalidAuthorizationSchemeException.php "SinchInvalidAuthorizationSchemeException") |
+|          403         |       40303      | No verified phone number on your Sinch account          | [SinchNoVerifiedPhoneNumberException](./Exception/Forbidden/SinchNoVerifiedPhoneNumberException.php "SinchNoVerifiedPhoneNumberException")
+|          403         |       40303      | Sandbox SMS only allowed to be sent to verified numbers | [SinchNoVerifiedPhoneNumberException](./Exception/Forbidden/SinchNoVerifiedPhoneNumberException.php "SinchNoVerifiedPhoneNumberException")
+|          500         |       50000      | Internal error                                          | [SinchInternalErrorException](./Exception/InternalServerError/SinchInternalErrorException.php "SinchInternalErrorException")
+
 ## Using
 
 ### Example of sending SMS
@@ -84,7 +99,7 @@ fresh_sinch:
 ```php
 $sinch = $this->get('sinch');
 // Set the outbound number where you want to send the SMS
-$phoneNumber = 1234567890; 
+$phoneNumber = '+13155555552'; 
 $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
 // If success then the ID of sent message is returned (it is an integer value)
 echo $messageId;
@@ -99,17 +114,37 @@ $sinch = $this->get('sinch');
 // You get the ID of message in successful response after sending a sms
 $messageId = 123456789;
 $status = $sinch->getStatusOfSMS($messageId);
-// Status is a string: Successful, Unknown or something else
+// Status is a string with one of these values: pending, successful, faulted, unknown
 ```
 
-#### Just check if SMS was sent successfully
+#### Helpers to check concrete SMS status
 
 ```php
 $sinch = $this->get('sinch');
 $messageId = 123456789;
+
 if ($sinch->smsIsSentSuccessfully($messageId)) {
     echo 'SMS was sent successfully';
 } else {
     echo 'SMS was not sent successfully';
+}
+
+// Other available checks
+$sinch->smsIsPending($messageId)
+$sinch->smsIsFaulted($messageId)
+$sinch->smsInUnknownStatus($messageId)
+```
+
+#### Catching and processing Sinch exceptions
+
+```php
+try {
+    $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+    
+    // Other logic related to SMS...
+} catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
+    $logger->error('SMS was not sent. Looks like your Sinch account run out of money');
+    
+    // Here you can send urgent emails to admin users that your Sinch account run out of money
 }
 ```

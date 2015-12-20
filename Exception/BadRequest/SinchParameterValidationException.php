@@ -8,17 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Fresh\SinchBundle\Exception;
+namespace Fresh\SinchBundle\Exception\InternalServerError;
+
+use Fresh\SinchBundle\Exception\BadRequest;
 
 /**
- * SinchPaymentRequiredException
+ * SinchParameterValidationException
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-class SinchPaymentRequiredException extends \RuntimeException
+class SinchParameterValidationException extends SinchException
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected $message = 'SMS was not sent. Looks like your Sinch account run out of money';
 }
