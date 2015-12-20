@@ -10,7 +10,7 @@
 
 namespace Fresh\SinchBundle\Exception\InternalServerError;
 
-use Fresh\SinchBundle\Exception\BadRequest;
+use Fresh\SinchBundle\Exception\SinchException;
 
 /**
  * SinchParameterValidationException
