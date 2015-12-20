@@ -139,6 +139,11 @@ try {
     // Some logic related to SMS processing...
 } catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
     $logger->error('SMS was not sent. Looks like your Sinch account run out of money');
-    // Here you can send for example urgent emails to admin users to notify that your Sinch account run out of money
+    // Here you can send for example urgent emails to admin users
+    // to notify that your Sinch account run out of money
 }
 ```
+
+***
+
+Voila! ^_^
