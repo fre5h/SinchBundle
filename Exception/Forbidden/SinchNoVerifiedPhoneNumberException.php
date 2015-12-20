@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Fresh\SinchBundle\Exception\InternalServerError;
+namespace Fresh\SinchBundle\Exception\Forbidden;
 
 use Fresh\SinchBundle\Exception\SinchException;
 
