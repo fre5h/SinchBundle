@@ -77,7 +77,7 @@ fresh_sinch:
     secret: "%sinch.secret%"
 ```
 
-## Exceptions
+## Exceptions for different [Sinch error codes](https://www.sinch.com/docs/sms/#messagingapierrorcodes)
 
 | Response Status Code | Sinch Error Code |                  Sinch Error Message                    | Thrown Exception                                                                                                                                          |
 |:--------------------:|:----------------:|:--------------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -98,9 +98,11 @@ fresh_sinch:
 
 ```php
 $sinch = $this->get('sinch');
+
 // Set the outbound number where you want to send the SMS
 $phoneNumber = '+13155555552'; 
 $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+
 // If success then the ID of sent message is returned (it is an integer value)
 echo $messageId;
 ```
@@ -111,28 +113,22 @@ echo $messageId;
 
 ```php
 $sinch = $this->get('sinch');
-// You get the ID of message in successful response after sending a sms
+
+// The ID of Sinch message you get after successful SMS sending
 $messageId = 123456789;
-$status = $sinch->getStatusOfSMS($messageId);
+
 // Status is a string with one of these values: pending, successful, faulted, unknown
+$status = $sinch->getStatusOfSMS($messageId);
 ```
 
 #### Helpers to check concrete SMS status
 
 ```php
-$sinch = $this->get('sinch');
-$messageId = 123456789;
-
-if ($sinch->smsIsSentSuccessfully($messageId)) {
-    echo 'SMS was sent successfully';
-} else {
-    echo 'SMS was not sent successfully';
-}
-
-// Other available checks
-$sinch->smsIsPending($messageId)
-$sinch->smsIsFaulted($messageId)
-$sinch->smsInUnknownStatus($messageId)
+// Return true or false
+$sinch->smsIsSentSuccessfully($messageId);
+$sinch->smsIsPending($messageId);
+$sinch->smsIsFaulted($messageId);
+$sinch->smsInUnknownStatus($messageId);
 ```
 
 #### Catching and processing Sinch exceptions
@@ -140,11 +136,9 @@ $sinch->smsInUnknownStatus($messageId)
 ```php
 try {
     $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
-    
-    // Other logic related to SMS...
+    // Some logic related to SMS processing...
 } catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
     $logger->error('SMS was not sent. Looks like your Sinch account run out of money');
-    
-    // Here you can send urgent emails to admin users that your Sinch account run out of money
+    // Here you can send for example urgent emails to admin users to notify that your Sinch account run out of money
 }
 ```
