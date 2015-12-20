@@ -8,42 +8,37 @@
  * file that was distributed with this source code.
  */
 
-namespace Fresh\SinchBundle\Tests\DependencyInjection;
+namespace Fresh\SinchBundle\Tests\Service;
 
-use Fresh\SinchBundle\DependencyInjection\FreshSinchExtension;
-use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Yaml\Parser;
+use Fresh\SinchBundle\Service\SinchExceptionResolver;
+use use GuzzleHttp\Exception\ClientException;
 
 /**
  * FreshSinchExtensionTest
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
+class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var FreshSinchExtension $extension FreshSinchExtension
-     */
-    private $extension;
-
-    /**
-     * @var ContainerBuilder $container Container builder
-     */
-    private $container;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function setUp()
-    {
-        $this->extension = new FreshSinchExtension();
-        $this->container = new ContainerBuilder();
-        $this->container->registerExtension($this->extension);
-    }
+//    /**
+//     * @var FreshSinchExtension $extension FreshSinchExtension
+//     */
+//    private $sinchExceptionResolver;
+//
+//    /**
+//     * {@inheritdoc}
+//     */
+//    protected function setUp()
+//    {
+//        $this->extension = new FreshSinchExtension();
+//        $this->container = new ContainerBuilder();
+//        $this->container->registerExtension($this->extension);
+//    }
 
     /**
      * Test load extension
+     *
+     * @expectedException SinchParameterValidationException
      */
     public function testLoadExtension()
     {
