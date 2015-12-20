@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Fresh\SinchBundle\Service;
+namespace Fresh\SinchBundle\Helper;
 
 /**
  * SinchErrorCode
