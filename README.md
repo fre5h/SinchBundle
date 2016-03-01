@@ -146,4 +146,6 @@ try {
 
 ***
 
-Voila! ^_^
+## Contributing
+
+See [CONTRIBUTING](https://github.com/fre5h/SinchBundle/blob/master/CONTRIBUTING.md) file.
