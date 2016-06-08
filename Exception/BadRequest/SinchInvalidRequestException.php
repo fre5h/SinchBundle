@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\BadRequest;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchInvalidRequestException
+ * SinchInvalidRequestException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\Forbidden;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchInvalidAuthorizationSchemeException
+ * SinchInvalidAuthorizationSchemeException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

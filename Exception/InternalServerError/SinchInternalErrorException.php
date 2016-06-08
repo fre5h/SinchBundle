@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\InternalServerError;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchInternalErrorException
+ * SinchInternalErrorException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

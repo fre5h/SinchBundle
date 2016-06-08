@@ -16,35 +16,23 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * FreshSinchExtensionTest
+ * FreshSinchExtensionTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
 class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @var FreshSinchExtension $extension FreshSinchExtension
-     */
     private $extension;
-
-    /**
-     * @var ContainerBuilder $container Container builder
-     */
+    
     private $container;
-
-    /**
-     * {@inheritdoc}
-     */
+    
     protected function setUp()
     {
         $this->extension = new FreshSinchExtension();
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);
     }
-
-    /**
-     * Test load extension
-     */
+    
     public function testLoadExtension()
     {
         $yaml = <<<EOF

@@ -11,7 +11,7 @@
 namespace Fresh\SinchBundle\Exception;
 
 /**
- * SinchException
+ * SinchException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\PaymentRequired;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchPaymentRequiredException
+ * SinchPaymentRequiredException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

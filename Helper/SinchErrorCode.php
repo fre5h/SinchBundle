@@ -11,7 +11,7 @@
 namespace Fresh\SinchBundle\Helper;
 
 /**
- * SinchErrorCode
+ * SinchErrorCode.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

@@ -11,7 +11,7 @@
 namespace Fresh\SinchBundle\Helper;
 
 /**
- * Sinch SMS Status
+ * Sinch SMS Status.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

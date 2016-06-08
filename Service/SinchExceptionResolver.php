@@ -18,24 +18,25 @@ use Fresh\SinchBundle\Exception\Forbidden\SinchInvalidAuthorizationSchemeExcepti
 use Fresh\SinchBundle\Exception\Forbidden\SinchNoVerifiedPhoneNumberException;
 use Fresh\SinchBundle\Exception\InternalServerError\SinchInternalErrorException;
 use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
+use Fresh\SinchBundle\Exception\SinchException;
 use Fresh\SinchBundle\Exception\Unauthorized\SinchIllegalAuthorizationHeaderException;
 use Fresh\SinchBundle\Helper\SinchErrorCode;
 use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * SinchExceptionResolver
+ * SinchExceptionResolver.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
 class SinchExceptionResolver
 {
     /**
-     * Create appropriate Sinch exception
+     * Create appropriate Sinch exception.
      *
      * @param ClientException $e Exception
      *
-     * @return \Exception|\Fresh\SinchBundle\Exception\SinchException
+     * @return \Exception|SinchException
      */
     public static function createAppropriateSinchException(ClientException $e)
     {
@@ -73,12 +74,12 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for bad request
+     * Get Sinch exception for bad request.
      *
      * @param int    $errorCode    Sinch error code
      * @param string $errorMessage Sinch error message
      *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
+     * @return SinchException|null
      */
     private static function getSinchExceptionForBadRequest($errorCode, $errorMessage)
     {
@@ -100,12 +101,12 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for unauthorized
+     * Get Sinch exception for unauthorized.
      *
      * @param int    $errorCode    Sinch error code
      * @param string $errorMessage Sinch error message
      *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
+     * @return SinchException|null
      */
     private static function getSinchExceptionForUnauthorized($errorCode, $errorMessage)
     {
@@ -119,14 +120,14 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for payment required
+     * Get Sinch exception for payment required.
      *
-     * Sinch returns 402 code when application run out of money
+     * Sinch returns 402 code when application runs out of money
      *
      * @param int    $errorCode    Sinch error code
      * @param string $errorMessage Sinch error message
      *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
+     * @return SinchException|null
      */
     private static function getSinchExceptionForPaymentRequired($errorCode, $errorMessage)
     {
@@ -140,12 +141,12 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for forbidden
+     * Get Sinch exception for forbidden.
      *
      * @param int    $errorCode    Sinch error code
      * @param string $errorMessage Sinch error message
      *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
+     * @return SinchException|null
      */
     private static function getSinchExceptionForForbidden($errorCode, $errorMessage)
     {
@@ -168,12 +169,12 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for internal server error
+     * Get Sinch exception for internal server error.
      *
      * @param int    $errorCode    Sinch error code
      * @param string $errorMessage Sinch error message
      *
-     * @return \Fresh\SinchBundle\Exception\SinchException|null
+     * @return SinchException|null
      */
     private static function getSinchExceptionForInternalServerError($errorCode, $errorMessage)
     {

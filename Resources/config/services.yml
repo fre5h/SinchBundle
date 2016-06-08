@@ -3,8 +3,8 @@ parameters:
 
 services:
     sinch:
-        class: %sinch.service.class%
+        class: "%sinch.service.class%"
         arguments:
-            - %sinch.host%
-            - %sinch.key%
-            - %sinch.secret%
+            - "%sinch.host%"
+            - "%sinch.key%"
+            - "%sinch.secret%"

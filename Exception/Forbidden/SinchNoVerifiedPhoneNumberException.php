@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\Forbidden;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchNoVerifiedPhoneNumberException
+ * SinchNoVerifiedPhoneNumberException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

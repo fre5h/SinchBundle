@@ -17,7 +17,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * SinchService
+ * SinchService.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
@@ -49,7 +49,7 @@ class SinchService
     private $from;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string      $host   Host
      * @param string      $key    Key
@@ -71,7 +71,7 @@ class SinchService
     // region Public API
 
     /**
-     * Send SMS
+     * Send SMS.
      *
      * @param string      $phoneNumber Phone number
      * @param string      $messageText Message text
@@ -120,7 +120,7 @@ class SinchService
     }
 
     /**
-     * Get status of sent SMS
+     * Get status of sent SMS.
      *
      * Available SMS statuses: Successful, Pending, Faulted, Unknown
      *
@@ -147,7 +147,7 @@ class SinchService
     // region Check status helpers
 
     /**
-     * Returns true if SMS with some ID was sent successfully, otherwise returns false
+     * Returns true if SMS with some ID was sent successfully, otherwise returns false.
      *
      * @param int $messageId Message ID
      *
@@ -166,7 +166,7 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID is still pending, otherwise returns false
+     * Returns true if SMS with some ID is still pending, otherwise returns false.
      *
      * @param int $messageId Message ID
      *
@@ -185,7 +185,7 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID was faulted, otherwise returns false
+     * Returns true if SMS with some ID was faulted, otherwise returns false.
      *
      * @param int $messageId Message ID
      *
@@ -204,7 +204,7 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID in unknown status, otherwise returns false
+     * Returns true if SMS with some ID in unknown status, otherwise returns false.
      *
      * @param int $messageId Message ID
      *
@@ -227,7 +227,7 @@ class SinchService
     // region Private functions
 
     /**
-     * Send request to check status of SMS
+     * Send request to check status of SMS.
      *
      * @param int $messageId Message ID
      *

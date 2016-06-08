@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * FreshSinchBundle
+ * FreshSinchBundle.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

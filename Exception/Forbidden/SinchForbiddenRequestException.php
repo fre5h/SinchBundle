@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\Forbidden;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchForbiddenRequestException
+ * SinchForbiddenRequestException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */

@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that loads and manages bundle configuration
+ * This is the class that loads and manages bundle configuration.
  *
  * @author Artem Genvald  <genvaldartem@gmail.com>
  */

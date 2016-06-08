@@ -16,7 +16,7 @@ use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * FreshSinchExtensionTest
+ * FreshSinchExtensionTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
@@ -24,9 +24,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 {
     // region Bad Request exceptions
 
-    /**
-     * Test SinchParameterValidationException
-     */
     public function testSinchParameterValidationException()
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::PARAMETER_VALIDATION);
@@ -37,9 +34,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test SinchInvalidRequestException
-     */
     public function testSinchInvalidRequestException()
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::INVALID_REQUEST);
@@ -50,9 +44,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test SinchMissingParameterException
-     */
     public function testSinchMissingParameterException()
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::MISSING_PARAMETER);
@@ -67,9 +58,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 
     // region Unauthorized exceptions
 
-    /**
-     * Test SinchIllegalAuthorizationHeaderException
-     */
     public function testSinchIllegalAuthorizationHeaderException()
     {
         $e = $this->getClientException(Response::HTTP_UNAUTHORIZED, SinchErrorCode::ILLEGAL_AUTHORIZATION_HEADER);
@@ -84,9 +72,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 
     // region Payment Required exceptions
 
-    /**
-     * Test SinchPaymentRequiredException
-     */
     public function testSinchPaymentRequiredException()
     {
         $e = $this->getClientException(Response::HTTP_PAYMENT_REQUIRED, SinchErrorCode::THERE_IS_NOT_ENOUGH_FUNDS_TO_SEND_THE_MESSAGE);
@@ -101,9 +86,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 
     // region Forbidden exceptions
 
-    /**
-     * Test SinchForbiddenRequestException
-     */
     public function testSinchForbiddenRequestException()
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::FORBIDDEN_REQUEST);
@@ -114,9 +96,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test SinchInvalidAuthorizationSchemeException
-     */
     public function testSinchInvalidAuthorizationSchemeException()
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::INVALID_AUTHORIZATION_SCHEME_FOR_CALLING_THE_METHOD);
@@ -127,9 +106,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * Test SinchNoVerifiedPhoneNumberException
-     */
     public function testSinchNoVerifiedPhoneNumberException()
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::NO_VERIFIED_PHONE_NUMBER_ON_YOUR_SINCH_ACCOUNT);
@@ -151,9 +127,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 
     // region Internal Server Error exceptions
 
-    /**
-     * Test SinchInternalErrorException
-     */
     public function testSinchInternalErrorException()
     {
         $e = $this->getClientException(Response::HTTP_INTERNAL_SERVER_ERROR, SinchErrorCode::INTERNAL_ERROR);
@@ -168,9 +141,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 
     // region Standard exceptions
 
-    /**
-     * Test standard exception
-     */
     public function testStandardException()
     {
         $e = $this->getClientException(Response::HTTP_GATEWAY_TIMEOUT, 0);
@@ -207,7 +177,6 @@ class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 }
 JSON
         ));
-
 
         return new ClientException(null, $request, $response);
     }

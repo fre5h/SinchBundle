@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Exception\Unauthorized;
 use Fresh\SinchBundle\Exception\SinchException;
 
 /**
- * SinchIllegalAuthorizationHeaderException
+ * SinchIllegalAuthorizationHeaderException.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
