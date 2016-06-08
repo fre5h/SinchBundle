@@ -23,19 +23,20 @@ use Symfony\Component\Yaml\Parser;
 class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
 {
     private $extension;
-    
+
     private $container;
-    
+
     protected function setUp()
     {
         $this->extension = new FreshSinchExtension();
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);
     }
-    
+
     public function testLoadExtension()
     {
-        $yaml = <<<EOF
+        $yaml
+                = <<<EOF
 fresh_sinch:
     key: some_dummy_key
     secret: some_dummy_secret
@@ -48,11 +49,11 @@ EOF;
         $this->container->compile();
 
         // Check loaded resources
-        $resources = $this->container->getResources();
+        $resources    = $this->container->getResources();
         $resourceList = [];
         foreach ($resources as $resource) {
             if ($resource instanceof FileResource) {
-                $path = $resource->getResource();
+                $path           = $resource->getResource();
                 $resourceList[] = substr($path, strrpos($path, '/') + 1);
             }
         }
