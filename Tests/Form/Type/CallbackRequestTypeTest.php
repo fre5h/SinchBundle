@@ -47,7 +47,7 @@ class CallbackRequestTypeTest extends TypeTestCase
 
         $optionResolver = new OptionsResolver();
 
-        $type->setDefaultOptions($optionResolver);
+        $type->configureOptions($optionResolver);
 
         $options = $optionResolver->resolve();
 
