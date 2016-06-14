@@ -1,7 +1,14 @@
 parameters:
+    sinch.controller.class: Fresh\SinchBundle\Controller\SinchController
     sinch.service.class: Fresh\SinchBundle\Service\SinchService
 
 services:
+    sinch_controller:
+        class: "%sinch.controller.class%"
+        arguments:
+            - "@form.factory"
+            - "@event_dispatcher"
+
     sinch:
         class: "%sinch.service.class%"
         arguments:

@@ -21,7 +21,7 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 ## Requirements
 
 * PHP 5.6 *and later*
-* Symfony 2.7 *and later*
+* Symfony 2.8.6 *and later*
 * Guzzle PHP HTTP Client *6.1.**
 
 ## Installation

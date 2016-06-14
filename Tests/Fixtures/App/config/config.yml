@@ -1,0 +1,24 @@
+parameters:
+    locale: en
+
+framework:
+    secret:          secret
+    translator:      { fallbacks: ["%locale%"] }
+    default_locale:  "%locale%"
+    test:            ~
+    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    form:            true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ["twig"] }
+    profiler:
+        collect: true
+    session:
+        storage_id: session.storage.mock_file
+
+services:
+    logger:
+        class: Psr\Log\NullLogger
+
+fresh_sinch:
+    key:    some_key
+    secret: some_secret

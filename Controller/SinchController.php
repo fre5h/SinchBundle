@@ -14,7 +14,8 @@ use Fresh\SinchBundle\Event\SinchEvents;
 use Fresh\SinchBundle\Event\SmsMessageCallbackEvent;
 use Fresh\SinchBundle\Form\Type\CallbackRequestType;
 use Fresh\SinchBundle\Model\CallbackRequest;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,10 +24,32 @@ use Symfony\Component\HttpFoundation\Response;
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-class SinchController extends Controller
+class SinchController
 {
     /**
-     * Callback action
+     * @var EventDispatcherInterface $eventDispatcher Event dispatcher
+     */
+    private $eventDispatcher;
+
+    /**
+     * @var FormFactory $formFactory Form factory
+     */
+    private $formFactory;
+
+    /**
+     * Constructor.
+     *
+     * @param FormFactory              $formFactory     Form factory
+     * @param EventDispatcherInterface $eventDispatcher Event dispatcher
+     */
+    public function __construct(FormFactory $formFactory, EventDispatcherInterface $eventDispatcher)
+    {
+        $this->formFactory     = $formFactory;
+        $this->eventDispatcher = $eventDispatcher;
+    }
+
+    /**
+     * Callback action.
      *
      * @param Request $request Request
      *
@@ -36,12 +59,12 @@ class SinchController extends Controller
     {
         try {
             $callbackRequest = new CallbackRequest();
-            $form = $this->createForm(CallbackRequestType::class, $callbackRequest);
+            $form = $this->formFactory->create(CallbackRequestType::class, $callbackRequest);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $eventDispatcher = $this->get('event_dispatcher');
-                $eventDispatcher->dispatch(SinchEvents::CALLBACK_RECEIVED, new SmsMessageCallbackEvent($callbackRequest));
+                $event = new SmsMessageCallbackEvent($callbackRequest);
+                $this->eventDispatcher->dispatch(SinchEvents::CALLBACK_RECEIVED, $event);
             } else {
                 return new Response('Bad Request', Response::HTTP_BAD_REQUEST);
             }

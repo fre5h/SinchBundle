@@ -52,7 +52,8 @@ EOF;
 
         $this->extension->load($config, $this->container);
         $this->container->loadFromExtension($this->extension->getAlias(), $config['fresh_sinch']);
-        $this->container->set('event_dispatcher', new \stdClass()); // Dummy class
+        $this->container->set('event_dispatcher', new \stdClass());
+        $this->container->set('form.factory', new \stdClass());
         $this->container->compile();
 
         // Check loaded resources

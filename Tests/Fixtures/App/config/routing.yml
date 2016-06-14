@@ -1,0 +1,2 @@
+sinch:
+    resource: "@FreshSinchBundle/Resources/config/routing.yml"

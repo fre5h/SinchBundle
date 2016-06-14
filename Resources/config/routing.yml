@@ -1,4 +1,4 @@
 sinch_callback:
     path:    /sinch/callback
-    defaults:  { _controller: FreshSinchBundle:Sinch:callback }
+    defaults:  { _controller: sinch_controller:callbackAction }
     methods: POST

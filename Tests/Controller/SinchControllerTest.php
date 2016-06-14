@@ -10,10 +10,10 @@
 
 namespace Fresh\SinchBundle\Tests\Controller;
 
-use Fresh\SinchBundle\Event\SinchEvents;
-use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Fresh\SinchBundle\Controller\SinchController;
 
 /**
  * SinchControllerTest.
@@ -25,147 +25,111 @@ class SinchControllerTest extends WebTestCase
     const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
 
     /**
-     * @var Client $client Client
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $client;
+    private $eventDispatcher;
 
-    private $eventIsDispatched;
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $formFactory;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    private $form;
+
+    /**
+     * @var SinchController
+     */
+    private $controller;
 
     protected function setUp()
     {
-        $this->client = static::createClient();
-        $this->eventIsDispatched = false;
+        $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher')
+                                      ->disableOriginalConstructor()
+                                      ->setMethods(['dispatch'])
+                                      ->getMock();
+
+        $this->formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactory')
+                                  ->disableOriginalConstructor()
+                                  ->setMethods(['create'])
+                                  ->getMock();
+
+        $this->form = $this->getMockBuilder('Symfony\Component\Form\Form')
+                           ->disableOriginalConstructor()
+                           ->setMethods(['isValid', 'isSubmitted', 'handleRequest'])
+                           ->getMock();
+
+        $this->formFactory->expects($this->once())
+                          ->method('create')
+                          ->willReturn($this->form);
+
+        $this->controller = new SinchController($this->formFactory, $this->eventDispatcher);
     }
 
     protected function tearDown()
     {
-        unset($this->client);
-        $this->eventIsDispatched = false;
+        unset($this->formFactory);
+        unset($this->eventDispatcher);
+        unset($this->controller);
     }
 
     public function testValidCallback()
     {
-        $this->client->getContainer()->get('event_dispatcher')->addListener(SinchEvents::CALLBACK_RECEIVED, function () {
-            $this->eventIsDispatched = true;
-        });
+        $this->form->expects($this->once())
+                   ->method('isSubmitted')
+                   ->willReturn(true);
+        $this->form->expects($this->once())
+                   ->method('isValid')
+                   ->willReturn(true);
 
-        $this->client->request(
-            'POST',
-            self::DEFAULT_SINCH_CALLBACK_URL,
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            <<<'JSON'
-{
-    "event": "incomingSms",
-    "to": {
-        "type": "number",
-        "endpoint": "+46700000000"
-    },
-    "from": {
-        "type": "number",
-        "endpoint": "+46700000001"
-    },
-    "message": "Hello world",
-    "timestamp": "2014-12-01T12:00:00Z",
-    "version": 1
-}
-JSON
-        );
-
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
-        $this->assertTrue($this->eventIsDispatched);
+        $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
+        $response = $this->controller->callbackAction($request);
+        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    /**
-     * @dataProvider invalidContentProvider
-     */
-    public function testInvalidCallbackContent($content)
+    public function testNotSubmittedData()
     {
-        $this->client->request(
-            'POST',
-            self::DEFAULT_SINCH_CALLBACK_URL,
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            $content
-        );
+        $this->form->expects($this->once())
+                   ->method('isSubmitted')
+                   ->willReturn(false);
+        $this->form->expects($this->never())
+                   ->method('isValid');
 
-        $response = $this->client->getResponse();
-
+        $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
+        $response = $this->controller->callbackAction($request);
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
-        $this->assertEquals('Bad Request', $response->getContent());
-        $this->assertFalse($this->eventIsDispatched);
     }
 
-    public function invalidContentProvider()
+    public function testNotValidData()
     {
-        return [
-            [
-                <<<'JSON'
-    {
-        "foo": "bar"
-    }
-JSON
-            ],
-            [
-                <<<'JSON'
-{
-    "event": "unknownEvent",
-    "to": {
-        "type": "number",
-        "endpoint": "+46700000000"
-    },
-    "from": {
-        "type": "number",
-        "endpoint": "+46700000001"
-    },
-    "message": "Hello world",
-    "timestamp": "2014-12-01T12:00:00Z",
-    "version": 1
-}
-JSON
-            ],
-        ];
+        $this->form->expects($this->once())
+                   ->method('isSubmitted')
+                   ->willReturn(true);
+        $this->form->expects($this->once())
+                   ->method('isValid')
+                   ->willReturn(false);
+
+        $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
+        $response = $this->controller->callbackAction($request);
+        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testInternalServerError()
+    public function testInternalError()
     {
-        $eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher')
-                                ->disableOriginalConstructor()
-                                ->setMethods(['dispatch'])
-                                ->getMock();
+        $this->eventDispatcher->expects($this->once())
+                              ->method('dispatch')
+                              ->willThrowException(new \Exception());
+        $this->form->expects($this->once())
+                   ->method('isSubmitted')
+                   ->willReturn(true);
+        $this->form->expects($this->once())
+                   ->method('isValid')
+                   ->willReturn(true);
 
-        $eventDispatcher->expects($this->once())
-                        ->method('dispatch')
-                        ->willThrowException(new \Exception());
-
-        $this->client->getKernel()->getContainer()->set('event_dispatcher', $eventDispatcher);
-
-        $this->client->request(
-            'POST',
-            self::DEFAULT_SINCH_CALLBACK_URL,
-            [],
-            [],
-            ['CONTENT_TYPE' => 'application/json'],
-            <<<'JSON'
-{
-    "event": "incomingSms",
-    "to": {
-        "type": "number",
-        "endpoint": "+46700000000"
-    },
-    "from": {
-        "type": "number",
-        "endpoint": "+46700000001"
-    },
-    "message": "Hello world",
-    "timestamp": "2014-12-01T12:00:00Z",
-    "version": 1
-}
-JSON
-        );
-
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $this->client->getResponse()->getStatusCode());
+        $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
+        $response = $this->controller->callbackAction($request);
+        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 }
