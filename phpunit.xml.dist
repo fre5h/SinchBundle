@@ -12,6 +12,10 @@
          bootstrap="vendor/autoload.php"
 >
 
+    <php>
+        <server name="KERNEL_DIR" value="app/" />
+    </php>
+
     <testsuites>
         <testsuite name="SinchBundle Test Suite">
             <directory>./Tests</directory>
