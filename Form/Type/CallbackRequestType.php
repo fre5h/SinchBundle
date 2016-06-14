@@ -63,4 +63,12 @@ class CallbackRequestType extends AbstractType
             'method'          => 'POST',
         ]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return null;
+    }
 }

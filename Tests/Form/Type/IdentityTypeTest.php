@@ -24,6 +24,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class IdentityTypeTest extends TypeTestCase
 {
+    public function testGetBlockPrefix()
+    {
+        $this->assertNull((new IdentityType)->getBlockPrefix());
+    }
+
     public function testFormBuilder()
     {
         $form = $this->factory->createBuilder(IdentityType::class)->getForm();

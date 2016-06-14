@@ -25,6 +25,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CallbackRequestTypeTest extends TypeTestCase
 {
+    public function testGetBlockPrefix()
+    {
+        $this->assertNull((new CallbackRequestType)->getBlockPrefix());
+    }
+
     public function testFormBuilder()
     {
         $form = $this->factory->createBuilder(CallbackRequestType::class)->getForm();
