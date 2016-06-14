@@ -10,10 +10,14 @@
 
 namespace Fresh\SinchBundle\Service;
 
+use Fresh\SinchBundle\Event\SinchEvents;
+use Fresh\SinchBundle\Event\SmsEvent;
+use Fresh\SinchBundle\Exception\SinchException;
 use Fresh\SinchBundle\Helper\SinchSmsStatus;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -23,10 +27,19 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SinchService
 {
+    const URL_FOR_SENDING_SMS = '/v1/sms/';
+
+    const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
+
     /**
      * @var Client $guzzleHTTPClient Guzzle HTTP client
      */
     private $guzzleHTTPClient;
+
+    /**
+     * @var EventDispatcherInterface $dispatcher Event dispatcher
+     */
+    private $dispatcher;
 
     /**
      * @var string $host Host
@@ -51,17 +64,19 @@ class SinchService
     /**
      * Constructor.
      *
-     * @param string      $host   Host
-     * @param string      $key    Key
-     * @param string      $secret Secret
-     * @param string|null $from   From
+     * @param EventDispatcherInterface $dispatcher Dispatcher
+     * @param string                   $host       Host
+     * @param string                   $key        Key
+     * @param string                   $secret     Secret
+     * @param string|null              $from       From
      */
-    public function __construct($host, $key, $secret, $from = null)
+    public function __construct(EventDispatcherInterface $dispatcher, $host, $key, $secret, $from = null)
     {
-        $this->host   = $host;
-        $this->key    = $key;
-        $this->secret = $secret;
-        $this->from   = $from;
+        $this->dispatcher = $dispatcher;
+        $this->host       = $host;
+        $this->key        = $key;
+        $this->secret     = $secret;
+        $this->from       = $from;
 
         $this->guzzleHTTPClient = new Client([
             'base_uri' => rtrim($this->host, '/'),
@@ -79,12 +94,12 @@ class SinchService
      *
      * @return int Message ID
      *
-     * @throws \Fresh\SinchBundle\Exception\SinchException
+     * @throws SinchException
      * @throws GuzzleException
      */
     public function sendSMS($phoneNumber, $messageText, $from = null)
     {
-        $uri = '/v1/sms/'.$phoneNumber; // @todo validate phone number
+        $uri = self::URL_FOR_SENDING_SMS.$phoneNumber; // @todo validate phone number
 
         $body = [
             'auth'    => [$this->key, $this->secret],
@@ -95,16 +110,22 @@ class SinchService
         if (null !== $from) {
             $body['json']['from'] = $from;
         } elseif (null !== $this->from) {
-            $body['json']['from'] = $this->from;
+            $from = $this->from;
+            $body['json']['from'] = $from;
         }
 
         try {
+            $smsEvent = new SmsEvent($phoneNumber, $messageText, $from);
+
+            $this->dispatcher->dispatch(SinchEvents::PRE_SMS_SEND, $smsEvent);
             $response = $this->guzzleHTTPClient->post($uri, $body);
+            $this->dispatcher->dispatch(SinchEvents::POST_SMS_SEND, $smsEvent);
         } catch (ClientException $e) {
             throw SinchExceptionResolver::createAppropriateSinchException($e);
         }
 
         $messageId = null;
+
         if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
             'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
@@ -233,11 +254,11 @@ class SinchService
      *
      * @return array|null
      *
-     * @throws \Fresh\SinchBundle\Exception\SinchException
+     * @throws SinchException
      */
     private function sendRequestToCheckStatusOfSMS($messageId)
     {
-        $uri = '/v1/message/status/'.$messageId;
+        $uri = self::URL_FOR_CHECKING_SMS_STATUS.$messageId;
 
         $body = [
             'auth'    => [$this->key, $this->secret],

@@ -5,6 +5,8 @@ services:
     sinch:
         class: "%sinch.service.class%"
         arguments:
+            - "@event_dispatcher"
             - "%sinch.host%"
             - "%sinch.key%"
             - "%sinch.secret%"
+            - "%sinch.from%"

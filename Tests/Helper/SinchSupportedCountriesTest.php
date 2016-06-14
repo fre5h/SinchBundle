@@ -16,6 +16,8 @@ use Fresh\SinchBundle\Helper\SinchSupportedCountries;
  * SinchSupportedCountriesTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
+ *
+ * @see \Fresh\SinchBundle\Helper\SinchSupportedCountries
  */
 class SinchSupportedCountriesTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +28,6 @@ class SinchSupportedCountriesTest extends \PHPUnit_Framework_TestCase
 
     public function testUnsupportedCountry()
     {
-        $this->assertFalse(SinchSupportedCountries::isCountrySupported('AQ'));
+        $this->assertFalse(SinchSupportedCountries::isCountrySupported('YO'));
     }
 }

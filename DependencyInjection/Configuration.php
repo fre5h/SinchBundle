@@ -14,7 +14,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * This is the class that loads and manages bundle configuration.
+ * Configuration.
  *
  * @author Artem Genvald  <genvaldartem@gmail.com>
  */
@@ -33,6 +33,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('host')->defaultValue('https://messagingapi.sinch.com')->end()
                 ->scalarNode('key')->end()
                 ->scalarNode('secret')->end()
+                ->scalarNode('from')->defaultNull()->end()
             ->end();
 
         return $treeBuilder;

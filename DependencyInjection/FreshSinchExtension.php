@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * This is the class that loads and manages FreshSinchExtension configuration.
+ * FreshSinchExtension.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
@@ -36,6 +36,7 @@ class FreshSinchExtension extends Extension
         $container->setParameter('sinch.host', $config['host']);
         $container->setParameter('sinch.key', $config['key']);
         $container->setParameter('sinch.secret', $config['secret']);
+        $container->setParameter('sinch.from', $config['from']);
     }
 
     /**

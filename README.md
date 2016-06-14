@@ -18,12 +18,6 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 [![knpbundles.com](http://knpbundles.com/fre5h/SinchBundle/badge-short)](http://knpbundles.com/fre5h/SinchBundle)
 
-## TODO
-
-* Improve docs
-* Add tests
-* Add more Sinch features
-
 ## Requirements
 
 * PHP 5.6 *and later*

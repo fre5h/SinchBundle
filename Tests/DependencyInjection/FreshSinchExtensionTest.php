@@ -19,11 +19,19 @@ use Symfony\Component\Yaml\Parser;
  * FreshSinchExtensionTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
+ *
+ * @see \Fresh\SinchBundle\DependencyInjection\FreshSinchExtension
  */
 class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var FreshSinchExtension $extension Extension
+     */
     private $extension;
 
+    /**
+     * @var ContainerBuilder $container Container
+     */
     private $container;
 
     protected function setUp()
@@ -46,6 +54,7 @@ EOF;
 
         $this->extension->load($config, $this->container);
         $this->container->loadFromExtension($this->extension->getAlias(), $config['fresh_sinch']);
+        $this->container->set('event_dispatcher', new \stdClass()); // Dummy class
         $this->container->compile();
 
         // Check loaded resources
@@ -63,6 +72,7 @@ EOF;
         $this->assertTrue($this->container->hasParameter('sinch.host'));
         $this->assertTrue($this->container->hasParameter('sinch.key'));
         $this->assertTrue($this->container->hasParameter('sinch.secret'));
+        $this->assertTrue($this->container->hasParameter('sinch.from'));
 
         // Check that service has been loaded
         $this->assertTrue($this->container->has('sinch'));
