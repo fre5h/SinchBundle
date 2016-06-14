@@ -42,7 +42,7 @@ final class SinchEvents
      *
      * @see \Fresh\SinchBundle\Event\CallbackEvent Listeners receive an instance of this class
      */
-    const CALLBACK_RECEIVED = 'sinch.callback';
+    const CALLBACK_RECEIVED = 'sinch.callback.received';
 
     // endregion
 
