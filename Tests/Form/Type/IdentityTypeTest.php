@@ -19,16 +19,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * IdentityTypeTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *         
+ *
  * @see \Fresh\SinchBundle\Form\Type\IdentityType
  */
 class IdentityTypeTest extends TypeTestCase
 {
-    public function testGetName()
-    {
-        $this->assertEquals(IdentityType::class, (new IdentityType())->getName());
-    }
-
     public function testFormBuilder()
     {
         $form = $this->factory->createBuilder(IdentityType::class)->getForm();
