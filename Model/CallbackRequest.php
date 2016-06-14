@@ -10,8 +10,10 @@
 
 namespace Fresh\SinchBundle\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
- * CallbackRequest.
+ * CallbackRequest Model.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  *
@@ -21,31 +23,51 @@ class CallbackRequest
 {
     /**
      * @var string $event Event
+     *
+     * @Assert\NotNull(message="Event cannot be null.")
+     * @Assert\Choice(choices = {"incomingSms"}, message = "Invalid event.")
      */
     private $event;
 
     /**
      * @var Identity $to To
+     *
+     * @Assert\NotNull(message="To cannot be null.")
+     * @Assert\Type(type="object")
+     * @Assert\Valid()
      */
     private $to;
 
     /**
      * @var Identity $from From
+     *
+     * @Assert\NotNull(message="From cannot be null.")
+     * @Assert\Type(type="object")
+     * @Assert\Valid()
      */
     private $from;
 
     /**
      * @var string $message Message
+     *
+     * @Assert\NotNull(message="Message cannot be null.")
+     * @Assert\Type(type="string")
      */
     private $message;
 
     /**
      * @var \DateTime $timestamp Timestamp
+     *
+     * @Assert\NotNull(message="Timestamp cannot be null.")
+     * @Assert\DateTime()
      */
     private $timestamp;
 
     /**
      * @var int $version Version
+     *
+     * @Assert\NotNull(message="Version cannot be null.")
+     * @Assert\Type(type="integer")
      */
     private $version;
 

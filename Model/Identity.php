@@ -10,8 +10,10 @@
 
 namespace Fresh\SinchBundle\Model;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
- * Identity.
+ * Identity Model.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  *
@@ -21,11 +23,17 @@ class Identity
 {
     /**
      * @var string $type Type
+     *
+     * @Assert\NotNull(message="Type cannot be null.")
+     * @Assert\Type(type="string")
      */
     private $type;
 
     /**
      * @var string $endpoint Endpoint
+     *
+     * @Assert\NotNull(message="Endpoint cannot be null.")
+     * @Assert\Type(type="string")
      */
     private $endpoint;
 
@@ -66,7 +74,7 @@ class Identity
     /**
      * Set endpoint.
      *
-     * @param string $endpoint endpoint
+     * @param string $endpoint Endpoint
      *
      * @return $this
      */
