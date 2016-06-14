@@ -10,7 +10,6 @@
 
 namespace Fresh\SinchBundle\Event;
 
-use AppBundle\Entity\Offer\Offer;
 use Fresh\SinchBundle\Model\CallbackRequest;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -29,7 +28,7 @@ class CallbackEvent extends Event
     /**
      * Constructor.
      *
-     * @param Offer $callbackRequest Callback request
+     * @param CallbackRequest $callbackRequest Callback request
      */
     public function __construct(CallbackRequest $callbackRequest)
     {
