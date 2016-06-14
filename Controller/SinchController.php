@@ -29,6 +29,8 @@ class SinchController extends Controller
      * Callback action
      *
      * @param Request $request Request
+     *
+     * @return Response
      */
     public function callbackAction(Request $request)
     {
@@ -38,7 +40,8 @@ class SinchController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->get('event_dispatcher')->dispatch(SinchEvents::CALLBACK_RECEIVED, new SmsMessageCallbackEvent($callbackRequest));
+                $eventDispatcher = $this->get('event_dispatcher');
+                $eventDispatcher->dispatch(SinchEvents::CALLBACK_RECEIVED, new SmsMessageCallbackEvent($callbackRequest));
             } else {
                 return new Response('Bad Request', Response::HTTP_BAD_REQUEST);
             }
