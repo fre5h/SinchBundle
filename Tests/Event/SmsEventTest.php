@@ -16,8 +16,6 @@ use Fresh\SinchBundle\Event\SmsEvent;
  * SmsEventTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Event\SmsEvent
  */
 class SmsEventTest extends \PHPUnit_Framework_TestCase
 {

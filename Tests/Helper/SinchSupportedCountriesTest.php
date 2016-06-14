@@ -16,8 +16,6 @@ use Fresh\SinchBundle\Helper\SinchSupportedCountries;
  * SinchSupportedCountriesTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Helper\SinchSupportedCountries
  */
 class SinchSupportedCountriesTest extends \PHPUnit_Framework_TestCase
 {

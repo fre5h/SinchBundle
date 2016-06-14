@@ -17,8 +17,6 @@ use Fresh\SinchBundle\Model\Identity;
  * CallbackRequestTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Model\CallbackRequest
  */
 class CallbackRequestTest extends \PHPUnit_Framework_TestCase
 {

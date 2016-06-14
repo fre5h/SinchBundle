@@ -10,14 +10,20 @@
 
 namespace Fresh\SinchBundle\Controller;
 
+use Fresh\SinchBundle\Event\SinchEvents;
+use Fresh\SinchBundle\Event\SmsMessageCallbackEvent;
+use Fresh\SinchBundle\Form\Type\CallbackRequestType;
+use Fresh\SinchBundle\Model\CallbackRequest;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * SinchController.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-class SinchController
+class SinchController extends Controller
 {
     /**
      * Callback action
@@ -26,6 +32,20 @@ class SinchController
      */
     public function callbackAction(Request $request)
     {
-        // @todo
+        try {
+            $callbackRequest = new CallbackRequest();
+            $form = $this->createForm(CallbackRequestType::class, $callbackRequest);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->get('event_dispatcher')->dispatch(SinchEvents::CALLBACK_RECEIVED, new SmsMessageCallbackEvent($callbackRequest));
+            } else {
+                return new Response('Bad Request', Response::HTTP_BAD_REQUEST);
+            }
+        } catch (\Exception $e) {
+            return new Response('Internal Server Error', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
+        return new Response(null, Response::HTTP_OK);
     }
 }

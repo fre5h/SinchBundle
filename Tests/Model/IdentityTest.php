@@ -16,8 +16,6 @@ use Fresh\SinchBundle\Model\Identity;
  * IdentityTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Model\Identity
  */
 class IdentityTest extends \PHPUnit_Framework_TestCase
 {

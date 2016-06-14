@@ -19,8 +19,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * IdentityTypeTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Form\Type\IdentityType
  */
 class IdentityTypeTest extends TypeTestCase
 {

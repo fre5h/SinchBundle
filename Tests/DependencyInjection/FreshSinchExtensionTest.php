@@ -19,8 +19,6 @@ use Symfony\Component\Yaml\Parser;
  * FreshSinchExtensionTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\DependencyInjection\FreshSinchExtension
  */
 class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
 {

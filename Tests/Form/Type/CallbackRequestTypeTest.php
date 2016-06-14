@@ -20,8 +20,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * CallbackRequestTypeTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Form\Type\CallbackRequestType
  */
 class CallbackRequestTypeTest extends TypeTestCase
 {

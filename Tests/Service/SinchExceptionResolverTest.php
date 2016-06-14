@@ -19,8 +19,6 @@ use Symfony\Component\HttpFoundation\Response;
  * FreshSinchExtensionTest.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
- *
- * @see \Fresh\SinchBundle\Service\SinchExceptionResolver
  */
 class SinchExceptionResolverTest extends \PHPUnit_Framework_TestCase
 {
