@@ -40,17 +40,9 @@ final class SinchEvents
     /**
      * This event is triggered callback from Sinch is received.
      *
-     * @see \Fresh\SinchBundle\Event\CallbackEvent Listeners receive an instance of this class
+     * @see \Fresh\SinchBundle\Event\SmsMessageCallbackEvent Listeners receive an instance of this class
      */
     const CALLBACK_RECEIVED = 'sinch.callback.received';
 
     // endregion
-
-
-    /**
-     * Constructor.
-     */
-    private function __construct()
-    {
-    }
 }

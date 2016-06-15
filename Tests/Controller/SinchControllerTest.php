@@ -11,6 +11,9 @@
 namespace Fresh\SinchBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
+use Symfony\Component\Form\Form;
+use Symfony\Component\Form\FormFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Fresh\SinchBundle\Controller\SinchController;
@@ -25,17 +28,17 @@ class SinchControllerTest extends WebTestCase
     const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|TraceableEventDispatcher
      */
     private $eventDispatcher;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|FormFactory
      */
     private $formFactory;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject|Form
      */
     private $form;
 
@@ -46,17 +49,17 @@ class SinchControllerTest extends WebTestCase
 
     protected function setUp()
     {
-        $this->eventDispatcher = $this->getMockBuilder('Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher')
+        $this->eventDispatcher = $this->getMockBuilder(TraceableEventDispatcher::class)
                                       ->disableOriginalConstructor()
                                       ->setMethods(['dispatch'])
                                       ->getMock();
 
-        $this->formFactory = $this->getMockBuilder('Symfony\Component\Form\FormFactory')
+        $this->formFactory = $this->getMockBuilder(FormFactory::class)
                                   ->disableOriginalConstructor()
                                   ->setMethods(['create'])
                                   ->getMock();
 
-        $this->form = $this->getMockBuilder('Symfony\Component\Form\Form')
+        $this->form = $this->getMockBuilder(Form::class)
                            ->disableOriginalConstructor()
                            ->setMethods(['isValid', 'isSubmitted', 'handleRequest'])
                            ->getMock();
@@ -73,6 +76,7 @@ class SinchControllerTest extends WebTestCase
         unset($this->formFactory);
         unset($this->eventDispatcher);
         unset($this->controller);
+        unset($this->form);
     }
 
     public function testValidCallback()
@@ -80,6 +84,7 @@ class SinchControllerTest extends WebTestCase
         $this->form->expects($this->once())
                    ->method('isSubmitted')
                    ->willReturn(true);
+
         $this->form->expects($this->once())
                    ->method('isValid')
                    ->willReturn(true);
@@ -107,6 +112,7 @@ class SinchControllerTest extends WebTestCase
         $this->form->expects($this->once())
                    ->method('isSubmitted')
                    ->willReturn(true);
+
         $this->form->expects($this->once())
                    ->method('isValid')
                    ->willReturn(false);
@@ -121,9 +127,11 @@ class SinchControllerTest extends WebTestCase
         $this->eventDispatcher->expects($this->once())
                               ->method('dispatch')
                               ->willThrowException(new \Exception());
+
         $this->form->expects($this->once())
                    ->method('isSubmitted')
                    ->willReturn(true);
+
         $this->form->expects($this->once())
                    ->method('isValid')
                    ->willReturn(true);
