@@ -142,4 +142,4 @@ try {
 
 ## Contributing
 
-See [CONTRIBUTING](https://github.com/fre5h/SinchBundle/blob/master/CONTRIBUTING.md) file.
+See [CONTRIBUTING](https://github.com/fre5h/SinchBundle/blob/master/.github/CONTRIBUTING.md) file.
