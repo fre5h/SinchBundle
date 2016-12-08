@@ -10,46 +10,38 @@
 
 namespace Fresh\SinchBundle\Event;
 
+use Symfony\Component\EventDispatcher\Event;
+
 /**
  * SmsEvent.
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  */
-class SmsEvent
+class SmsEvent extends Event
 {
-    /**
-     * @var string $number Number
-     */
+    /** @var string */
     private $number;
 
-    /**
-     * @var string $message Message
-     */
+    /** @var string */
     private $message;
 
-    /**
-     * @var string|null $from From
-     */
+    /** @var string|null */
     private $from;
 
     /**
-     * Constructor.
-     *
-     * @param string      $number  Number
-     * @param string      $message Message
-     * @param string|null $from    From
+     * @param string      $number
+     * @param string      $message
+     * @param string|null $from
      */
     public function __construct($number, $message, $from = null)
     {
-        $this->number  = $number;
+        $this->number = $number;
         $this->message = $message;
-        $this->from    = $from;
+        $this->from = $from;
     }
 
     /**
-     * Get number.
-     *
-     * @return string Number
+     * @return string
      */
     public function getNumber()
     {
@@ -57,9 +49,7 @@ class SmsEvent
     }
 
     /**
-     * Set number.
-     *
-     * @param string $number Number
+     * @param string $number
      *
      * @return $this
      */
@@ -71,9 +61,7 @@ class SmsEvent
     }
 
     /**
-     * Get message.
-     *
-     * @return string Message
+     * @return string
      */
     public function getMessage()
     {
@@ -81,9 +69,7 @@ class SmsEvent
     }
 
     /**
-     * Set message.
-     *
-     * @param string $message Message
+     * @param string $message
      *
      * @return $this
      */
@@ -95,9 +81,7 @@ class SmsEvent
     }
 
     /**
-     * Get from.
-     *
-     * @return null|string From
+     * @return null|string
      */
     public function getFrom()
     {
@@ -105,9 +89,7 @@ class SmsEvent
     }
 
     /**
-     * Set from.
-     *
-     * @param null|string $from From
+     * @param null|string $from
      *
      * @return $this
      */

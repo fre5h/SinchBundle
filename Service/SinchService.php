@@ -31,52 +31,38 @@ class SinchService
 
     const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
 
-    /**
-     * @var Client $guzzleHTTPClient Guzzle HTTP client
-     */
+    /** @var Client */
     private $guzzleHTTPClient;
 
-    /**
-     * @var EventDispatcherInterface $dispatcher Event dispatcher
-     */
+    /** @var EventDispatcherInterface */
     private $dispatcher;
 
-    /**
-     * @var string $host Host
-     */
+    /** @var string */
     private $host;
 
-    /**
-     * @var string $key Key
-     */
+    /** @var string */
     private $key;
 
-    /**
-     * @var string $secret Secret
-     */
+    /** @var string */
     private $secret;
 
-    /**
-     * @var string $from From
-     */
+    /**@var string $*/
     private $from;
 
     /**
-     * Constructor.
-     *
-     * @param EventDispatcherInterface $dispatcher Dispatcher
-     * @param string                   $host       Host
-     * @param string                   $key        Key
-     * @param string                   $secret     Secret
-     * @param string|null              $from       From
+     * @param EventDispatcherInterface $dispatcher
+     * @param string                   $host
+     * @param string                   $key
+     * @param string                   $secret
+     * @param string|null              $from
      */
     public function __construct(EventDispatcherInterface $dispatcher, $host, $key, $secret, $from = null)
     {
         $this->dispatcher = $dispatcher;
-        $this->host       = $host;
-        $this->key        = $key;
-        $this->secret     = $secret;
-        $this->from       = $from;
+        $this->host = $host;
+        $this->key = $key;
+        $this->secret = $secret;
+        $this->from = $from;
 
         $this->guzzleHTTPClient = new Client([
             'base_uri' => rtrim($this->host, '/'),
@@ -86,11 +72,9 @@ class SinchService
     // region Public API
 
     /**
-     * Send SMS.
-     *
-     * @param string      $phoneNumber Phone number
-     * @param string      $messageText Message text
-     * @param string|null $from        From
+     * @param string      $phoneNumber
+     * @param string      $messageText
+     * @param string|null $from
      *
      * @return int Message ID
      *
@@ -102,9 +86,9 @@ class SinchService
         $uri = self::URL_FOR_SENDING_SMS.$phoneNumber; // @todo validate phone number
 
         $body = [
-            'auth'    => [$this->key, $this->secret],
+            'auth' => [$this->key, $this->secret],
             'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')], // ISO 8601 date format
-            'json'    => ['message' => $messageText],
+            'json' => ['message' => $messageText],
         ];
 
         if (null !== $from) {
@@ -126,8 +110,8 @@ class SinchService
 
         $messageId = null;
 
-        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
-            'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type')
+            && 'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
             $content = json_decode($content, true);
@@ -141,13 +125,9 @@ class SinchService
     }
 
     /**
-     * Get status of sent SMS.
+     * @param int $messageId
      *
-     * Available SMS statuses: Successful, Pending, Faulted, Unknown
-     *
-     * @param int $messageId Message ID
-     *
-     * @return string SMS status
+     * @return string
      *
      * @throws GuzzleException
      */
@@ -168,11 +148,9 @@ class SinchService
     // region Check status helpers
 
     /**
-     * Returns true if SMS with some ID was sent successfully, otherwise returns false.
+     * @param int $messageId
      *
-     * @param int $messageId Message ID
-     *
-     * @return bool True if SMS was sent successfully, otherwise - false
+     * @return bool
      */
     public function smsIsSentSuccessfully($messageId)
     {
@@ -187,11 +165,9 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID is still pending, otherwise returns false.
+     * @param int $messageId
      *
-     * @param int $messageId Message ID
-     *
-     * @return bool True if SMS is still pending, otherwise - false
+     * @return bool
      */
     public function smsIsPending($messageId)
     {
@@ -206,11 +182,9 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID was faulted, otherwise returns false.
+     * @param int $messageId
      *
-     * @param int $messageId Message ID
-     *
-     * @return bool True if SMS was faulted, otherwise - false
+     * @return bool
      */
     public function smsIsFaulted($messageId)
     {
@@ -225,11 +199,9 @@ class SinchService
     }
 
     /**
-     * Returns true if SMS with some ID in unknown status, otherwise returns false.
+     * @param int $messageId
      *
-     * @param int $messageId Message ID
-     *
-     * @return bool True if SMS in unknown status, otherwise - false
+     * @return bool
      */
     public function smsInUnknownStatus($messageId)
     {
@@ -248,9 +220,7 @@ class SinchService
     // region Private functions
 
     /**
-     * Send request to check status of SMS.
-     *
-     * @param int $messageId Message ID
+     * @param int $messageId
      *
      * @return array|null
      *
@@ -261,7 +231,7 @@ class SinchService
         $uri = self::URL_FOR_CHECKING_SMS_STATUS.$messageId;
 
         $body = [
-            'auth'    => [$this->key, $this->secret],
+            'auth' => [$this->key, $this->secret],
             'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
         ];
 
@@ -273,8 +243,8 @@ class SinchService
 
         $result = null;
 
-        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type') &&
-            'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type')
+            && 'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
         ) {
             $content = $response->getBody()->getContents();
             $result = json_decode($content, true);
