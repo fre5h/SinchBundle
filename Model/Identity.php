@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Identity
 {
     /**
-     * @var string $type Type
+     * @var string
      *
      * @Assert\NotNull(message="Type cannot be null.")
      * @Assert\Type(type="string")
@@ -30,7 +30,7 @@ class Identity
     private $type;
 
     /**
-     * @var string $endpoint Endpoint
+     * @var string
      *
      * @Assert\NotNull(message="Endpoint cannot be null.")
      * @Assert\Type(type="string")
@@ -38,9 +38,7 @@ class Identity
     private $endpoint;
 
     /**
-     * Get type.
-     *
-     * @return string Type
+     * @return string
      */
     public function getType()
     {
@@ -48,9 +46,7 @@ class Identity
     }
 
     /**
-     * Set type.
-     *
-     * @param string $type type
+     * @param string $type
      *
      * @return $this
      */
@@ -62,9 +58,7 @@ class Identity
     }
 
     /**
-     * Get endpoint.
-     *
-     * @return string Endpoint
+     * @return string
      */
     public function getEndpoint()
     {
@@ -72,9 +66,7 @@ class Identity
     }
 
     /**
-     * Set endpoint.
-     *
-     * @param string $endpoint Endpoint
+     * @param string $endpoint
      *
      * @return $this
      */

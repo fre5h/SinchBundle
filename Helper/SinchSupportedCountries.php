@@ -20,7 +20,7 @@ class SinchSupportedCountries
     /**
      * List of supported countries by Sinch.
      *
-     * @var array $supportedCountries Countries
+     * @var array
      * @static
      */
     public static $supportedCountries = [
@@ -132,9 +132,9 @@ class SinchSupportedCountries
     ];
 
     /**
-     * Check if country is supported
+     * Check if country is supported.
      *
-     * @param string $countryCode Country code
+     * @param string $countryCode
      *
      * @return bool
      */

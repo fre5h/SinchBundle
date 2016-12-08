@@ -26,32 +26,24 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SinchController
 {
-    /**
-     * @var EventDispatcherInterface $eventDispatcher Event dispatcher
-     */
+    /** @var EventDispatcherInterface */
     private $eventDispatcher;
 
-    /**
-     * @var FormFactory $formFactory Form factory
-     */
+    /** @var FormFactory */
     private $formFactory;
 
     /**
-     * Constructor.
-     *
-     * @param FormFactory              $formFactory     Form factory
-     * @param EventDispatcherInterface $eventDispatcher Event dispatcher
+     * @param FormFactory              $formFactory
+     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(FormFactory $formFactory, EventDispatcherInterface $eventDispatcher)
     {
-        $this->formFactory     = $formFactory;
+        $this->formFactory = $formFactory;
         $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * Callback action.
-     *
-     * @param Request $request Request
+     * @param Request $request
      *
      * @return Response
      */

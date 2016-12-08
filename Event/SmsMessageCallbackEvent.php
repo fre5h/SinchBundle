@@ -21,15 +21,11 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class SmsMessageCallbackEvent extends Event
 {
-    /**
-     * @var CallbackRequest $callbackRequest Callback request
-     */
+    /** @var CallbackRequest */
     private $callbackRequest;
 
     /**
-     * Constructor.
-     *
-     * @param CallbackRequest $callbackRequest Callback request
+     * @param CallbackRequest $callbackRequest
      */
     public function __construct(CallbackRequest $callbackRequest)
     {
@@ -37,9 +33,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get event.
-     *
-     * @return string Event
+     * @return string
      */
     public function getEvent()
     {
@@ -47,9 +41,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get to.
-     *
-     * @return Identity To
+     * @return Identity
      */
     public function getTo()
     {
@@ -57,9 +49,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get from.
-     *
-     * @return Identity From
+     * @return Identity
      */
     public function getFrom()
     {
@@ -67,9 +57,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get message.
-     *
-     * @return string Message
+     * @return string
      */
     public function getMessage()
     {
@@ -77,9 +65,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get timestamp.
-     *
-     * @return \DateTime Timestamp
+     * @return \DateTime
      */
     public function getTimestamp()
     {
@@ -87,9 +73,7 @@ class SmsMessageCallbackEvent extends Event
     }
 
     /**
-     * Get version.
-     *
-     * @return int Version
+     * @return int
      */
     public function getVersion()
     {

@@ -32,9 +32,7 @@ use Symfony\Component\HttpFoundation\Response;
 class SinchExceptionResolver
 {
     /**
-     * Create appropriate Sinch exception.
-     *
-     * @param ClientException $e Exception
+     * @param ClientException $e
      *
      * @return \Exception|SinchException
      */
@@ -43,7 +41,7 @@ class SinchExceptionResolver
         $response = json_decode($e->getResponse()->getBody()->getContents(), true);
         $responseStatusCode = $e->getCode();
 
-        $errorCode    = (int) $response['errorCode'];
+        $errorCode = (int) $response['errorCode'];
         $errorMessage = $response['message'];
 
         $exception = null;
@@ -74,10 +72,8 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for bad request.
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
+     * @param int    $errorCode
+     * @param string $errorMessage
      *
      * @return SinchException|null
      */
@@ -101,10 +97,8 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for unauthorized.
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
+     * @param int    $errorCode
+     * @param string $errorMessage
      *
      * @return SinchException|null
      */
@@ -120,12 +114,10 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for payment required.
+     * Sinch returns 402 code when application runs out of money.
      *
-     * Sinch returns 402 code when application runs out of money
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
+     * @param int    $errorCode
+     * @param string $errorMessage
      *
      * @return SinchException|null
      */
@@ -141,10 +133,8 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for forbidden.
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
+     * @param int    $errorCode
+     * @param string $errorMessage
      *
      * @return SinchException|null
      */
@@ -169,10 +159,8 @@ class SinchExceptionResolver
     }
 
     /**
-     * Get Sinch exception for internal server error.
-     *
-     * @param int    $errorCode    Sinch error code
-     * @param string $errorMessage Sinch error message
+     * @param int    $errorCode
+     * @param string $errorMessage
      *
      * @return SinchException|null
      */

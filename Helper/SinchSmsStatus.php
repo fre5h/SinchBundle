@@ -17,8 +17,8 @@ namespace Fresh\SinchBundle\Helper;
  */
 final class SinchSmsStatus
 {
-    const PENDING    = 'pending';
+    const PENDING = 'pending';
     const SUCCESSFUL = 'successful';
-    const FAULTED    = 'faulted';
-    const UNKNOWN    = 'unknown';
+    const FAULTED = 'faulted';
+    const UNKNOWN = 'unknown';
 }

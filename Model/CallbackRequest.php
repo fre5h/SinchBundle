@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class CallbackRequest
 {
     /**
-     * @var string $event Event
+     * @var string
      *
      * @Assert\NotNull(message="Event cannot be null.")
      * @Assert\Choice(choices = {"incomingSms"}, message = "Invalid event.")
@@ -30,7 +30,7 @@ class CallbackRequest
     private $event;
 
     /**
-     * @var Identity $to To
+     * @var Identity
      *
      * @Assert\NotNull(message="To cannot be null.")
      * @Assert\Type(type="object")
@@ -39,7 +39,7 @@ class CallbackRequest
     private $to;
 
     /**
-     * @var Identity $from From
+     * @var Identity
      *
      * @Assert\NotNull(message="From cannot be null.")
      * @Assert\Type(type="object")
@@ -48,7 +48,7 @@ class CallbackRequest
     private $from;
 
     /**
-     * @var string $message Message
+     * @var string
      *
      * @Assert\NotNull(message="Message cannot be null.")
      * @Assert\Type(type="string")
@@ -56,7 +56,7 @@ class CallbackRequest
     private $message;
 
     /**
-     * @var \DateTime $timestamp Timestamp
+     * @var \DateTime
      *
      * @Assert\NotNull(message="Timestamp cannot be null.")
      * @Assert\DateTime()
@@ -64,7 +64,7 @@ class CallbackRequest
     private $timestamp;
 
     /**
-     * @var int $version Version
+     * @var int
      *
      * @Assert\NotNull(message="Version cannot be null.")
      * @Assert\Type(type="integer")
@@ -72,9 +72,7 @@ class CallbackRequest
     private $version;
 
     /**
-     * Get event.
-     *
-     * @return string Event
+     * @return string
      */
     public function getEvent()
     {
@@ -82,9 +80,7 @@ class CallbackRequest
     }
 
     /**
-     * Set event.
-     *
-     * @param string $event Event
+     * @param string $event
      *
      * @return $this
      */
@@ -96,9 +92,7 @@ class CallbackRequest
     }
 
     /**
-     * Get to.
-     *
-     * @return Identity To
+     * @return Identity
      */
     public function getTo()
     {
@@ -106,9 +100,7 @@ class CallbackRequest
     }
 
     /**
-     * Set to.
-     *
-     * @param Identity $to To
+     * @param Identity $to
      *
      * @return $this
      */
@@ -120,9 +112,7 @@ class CallbackRequest
     }
 
     /**
-     * Get from.
-     *
-     * @return Identity From
+     * @return Identity
      */
     public function getFrom()
     {
@@ -130,9 +120,7 @@ class CallbackRequest
     }
 
     /**
-     * Set from.
-     *
-     * @param Identity $from From
+     * @param Identity $from
      *
      * @return $this
      */
@@ -144,9 +132,7 @@ class CallbackRequest
     }
 
     /**
-     * Get message.
-     *
-     * @return string Message
+     * @return string
      */
     public function getMessage()
     {
@@ -154,9 +140,7 @@ class CallbackRequest
     }
 
     /**
-     * Set message.
-     *
-     * @param string $message Message
+     * @param string $message
      *
      * @return $this
      */
@@ -168,9 +152,7 @@ class CallbackRequest
     }
 
     /**
-     * Get timestamp.
-     *
-     * @return \DateTime Timestamp
+     * @return \DateTime
      */
     public function getTimestamp()
     {
@@ -178,9 +160,7 @@ class CallbackRequest
     }
 
     /**
-     * Set timestamp.
-     *
-     * @param \DateTime $timestamp Timestamp
+     * @param \DateTime $timestamp
      *
      * @return $this
      */
@@ -192,9 +172,7 @@ class CallbackRequest
     }
 
     /**
-     * Get version.
-     *
-     * @return int Version
+     * @return int
      */
     public function getVersion()
     {
@@ -202,9 +180,7 @@ class CallbackRequest
     }
 
     /**
-     * Set version.
-     *
-     * @param int $version Version
+     * @param int $version
      *
      * @return $this
      */

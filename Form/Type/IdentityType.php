@@ -10,6 +10,7 @@
 
 namespace Fresh\SinchBundle\Form\Type;
 
+use Fresh\SinchBundle\Model\Identity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as CoreType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,17 +43,16 @@ class IdentityType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'      => 'Fresh\SinchBundle\Model\Identity',
+            'data_class' => Identity::class,
             'csrf_protection' => false,
         ]);
     }
-
 
     /**
      * {@inheritdoc}
      */
     public function getBlockPrefix()
     {
-        return null;
+        return '';
     }
 }

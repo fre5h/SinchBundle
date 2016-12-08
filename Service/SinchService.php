@@ -46,7 +46,7 @@ class SinchService
     /** @var string */
     private $secret;
 
-    /**@var string $*/
+    /** @var string */
     private $from;
 
     /**

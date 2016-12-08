@@ -10,9 +10,11 @@
 
 namespace Fresh\SinchBundle\Form\Type;
 
+use Fresh\SinchBundle\Model\CallbackRequest;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type as CoreType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -29,7 +31,7 @@ class CallbackRequestType extends AbstractType
     {
         $builder
             ->add('event', CoreType\ChoiceType::class, [
-                'choices'  => [
+                'choices' => [
                     'incomingSms' => 'incomingSms',
                 ],
                 'required' => true,
@@ -44,7 +46,7 @@ class CallbackRequestType extends AbstractType
                 'required' => true,
             ])
             ->add('timestamp', CoreType\DateTimeType::class, [
-                'widget'   => 'single_text',
+                'widget' => 'single_text',
                 'required' => true,
             ])
             ->add('version', CoreType\IntegerType::class, [
@@ -58,9 +60,9 @@ class CallbackRequestType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class'      => 'Fresh\SinchBundle\Model\CallbackRequest',
+            'data_class' => CallbackRequest::class,
             'csrf_protection' => false,
-            'method'          => 'POST',
+            'method' => Request::METHOD_POST,
         ]);
     }
 
@@ -69,6 +71,6 @@ class CallbackRequestType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return null;
+        return '';
     }
 }

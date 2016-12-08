@@ -18,22 +18,22 @@ namespace Fresh\SinchBundle\Service;
 interface HTTPClientInterface
 {
     /**
-     * POST method
+     * POST method.
      *
-     * @param string $uri     URI
-     * @param array  $body    Body
-     * @param array  $headers Headers
+     * @param string $uri
+     * @param array  $body
+     * @param array  $headers
      *
      * @return mixed
      */
     public function post($uri, $body = [], $headers = []);
 
     /**
-     * GET method
+     * GET method.
      *
-     * @param string $uri             URI
-     * @param array  $queryParameters Query parameters
-     * @param array  $headers         Headers
+     * @param string $uri
+     * @param array  $queryParameters
+     * @param array  $headers
      *
      * @return mixed
      */
