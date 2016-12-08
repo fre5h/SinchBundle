@@ -119,7 +119,7 @@ class SinchService
             if (isset($content['messageId']) && array_key_exists('messageId', $content)) {
                 $messageId = $content['messageId'];
             }
-        };
+        }
 
         return $messageId;
     }
@@ -248,7 +248,7 @@ class SinchService
         ) {
             $content = $response->getBody()->getContents();
             $result = json_decode($content, true);
-        };
+        }
 
         return $result;
     }

@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @author Artem Genvald <genvaldartem@gmail.com>
  *
- * @link https://www.sinch.com/docs/sms/#incomingsms
+ * @see https://www.sinch.com/docs/sms/#incomingsms
  */
 class CallbackRequest
 {
