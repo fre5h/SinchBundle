@@ -72,9 +72,9 @@ class CallbackRequest
     private $version;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEvent(): string
+    public function getEvent(): ?string
     {
         return $this->event;
     }
@@ -132,9 +132,9 @@ class CallbackRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMessage(): string
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -172,9 +172,9 @@ class CallbackRequest
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getVersion(): int
+    public function getVersion(): ?int
     {
         return $this->version;
     }

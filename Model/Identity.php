@@ -38,9 +38,9 @@ class Identity
     private $endpoint;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getType(): string
+    public function getType(): ?string
     {
         return $this->type;
     }
@@ -58,9 +58,9 @@ class Identity
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEndpoint(): string
+    public function getEndpoint(): ?string
     {
         return $this->endpoint;
     }
