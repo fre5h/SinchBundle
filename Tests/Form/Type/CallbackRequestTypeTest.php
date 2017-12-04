@@ -25,7 +25,7 @@ class CallbackRequestTypeTest extends TypeTestCase
 {
     public function testGetBlockPrefix()
     {
-        $this->assertNull((new CallbackRequestType)->getBlockPrefix());
+        $this->assertEmpty((new CallbackRequestType)->getBlockPrefix());
     }
 
     public function testFormBuilder()

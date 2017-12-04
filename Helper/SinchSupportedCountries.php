@@ -19,6 +19,7 @@ class SinchSupportedCountries
 {
     /**
      * @var array
+     *
      * @static
      */
     const SUPPORTED_COUNTRIES = [
@@ -134,7 +135,7 @@ class SinchSupportedCountries
      *
      * @return bool
      */
-    public static function isCountrySupported(string $countryCode): string
+    public static function isCountrySupported(string $countryCode): bool
     {
         return isset(self::SUPPORTED_COUNTRIES[$countryCode]);
     }
