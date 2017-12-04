@@ -1,6 +1,6 @@
 parameters:
     sinch.controller.class: Fresh\SinchBundle\Controller\SinchController
-    sinch.service.class: Fresh\SinchBundle\Service\SinchService
+    sinch.service.class: Fresh\SinchBundle\Service\Sinch
 
 services:
     _defaults:
@@ -18,5 +18,5 @@ services:
         tags:
             - 'controller.service_arguments'
 
-    Fresh\SinchBundle\Service\SinchService:
-        class: Fresh\SinchBundle\Service\SinchService
+    Fresh\SinchBundle\Service\Sinch:
+        class: Fresh\SinchBundle\Service\Sinch
