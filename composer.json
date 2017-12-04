@@ -7,7 +7,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Artem Genvald",
+            "name": "Artem Henvald",
             "email": "genvaldartem@gmail.com",
             "role": "Creator"
         }
@@ -18,16 +18,15 @@
     },
     "require": {
         "php": ">=5.6.0",
-        "symfony/config": "^2.8.6 || ^3.0.6",
-        "symfony/event-dispatcher": "^2.8.6 || ^3.0.6",        
-        "symfony/form": "^2.8.6 || ^3.0.6",
-        "symfony/framework-bundle": "^2.8.6 || ^3.0.6",
+        "symfony/config": "^3.4",
+        "symfony/event-dispatcher": "^3.4",     
+        "symfony/form": "^3.4",
+        "symfony/framework-bundle": "^3.4",
         "guzzlehttp/guzzle": "^6.2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "5.6.*",
-        "squizlabs/php_codesniffer": "~2.7",
-        "escapestudios/symfony2-coding-standard": "~2.9",
+        "escapestudios/symfony2-coding-standard": "^3.0",
         "matthiasnoback/symfony-config-test": "2.0.*"
     },
     "autoload": {
@@ -37,5 +36,10 @@
         "exclude-from-classmap": [
             "/Tests/"
         ]
-    }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Fresh\\SinchBundle\\Tests\\": "Tests/"
+        }
+    },    
 }
