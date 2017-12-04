@@ -49,18 +49,23 @@ class SinchExceptionResolver
         switch ($responseStatusCode) {
             case Response::HTTP_BAD_REQUEST:
                 $exception = self::getSinchExceptionForBadRequest($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_UNAUTHORIZED:
                 $exception = self::getSinchExceptionForUnauthorized($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_PAYMENT_REQUIRED:
                 $exception = self::getSinchExceptionForPaymentRequired($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_FORBIDDEN:
                 $exception = self::getSinchExceptionForForbidden($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_INTERNAL_SERVER_ERROR:
                 $exception = self::getSinchExceptionForInternalServerError($errorCode, $errorMessage);
+
                 break;
         }
 
@@ -84,12 +89,15 @@ class SinchExceptionResolver
         switch ($errorCode) {
             case SinchErrorCode::PARAMETER_VALIDATION:
                 $exception = new SinchParameterValidationException($errorMessage);
+
                 break;
             case SinchErrorCode::MISSING_PARAMETER:
                 $exception = new SinchMissingParameterException($errorMessage);
+
                 break;
             case SinchErrorCode::INVALID_REQUEST:
                 $exception = new SinchInvalidRequestException($errorMessage);
+
                 break;
         }
 
@@ -145,13 +153,16 @@ class SinchExceptionResolver
         switch ($errorCode) {
             case SinchErrorCode::FORBIDDEN_REQUEST:
                 $exception = new SinchForbiddenRequestException($errorMessage);
+
                 break;
             case SinchErrorCode::INVALID_AUTHORIZATION_SCHEME_FOR_CALLING_THE_METHOD:
                 $exception = new SinchInvalidAuthorizationSchemeException($errorMessage);
+
                 break;
             case SinchErrorCode::NO_VERIFIED_PHONE_NUMBER_ON_YOUR_SINCH_ACCOUNT:
             case SinchErrorCode::SANDBOX_SMS_ONLY_ALLOWED_TO_BE_SENT_TO_VERIFIED_NUMBERS:
                 $exception = new SinchNoVerifiedPhoneNumberException($errorMessage);
+
                 break;
         }
 
