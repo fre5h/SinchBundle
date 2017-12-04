@@ -41,5 +41,5 @@
         "psr-4": {
             "Fresh\\SinchBundle\\Tests\\": "Tests/"
         }
-    },    
+    }
 }
