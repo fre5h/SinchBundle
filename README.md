@@ -71,7 +71,7 @@ fresh_sinch:
     secret: "%sinch.secret%"
 ```
 
-## Using
+## Usage
 
 ### Example of sending SMS
 

@@ -94,7 +94,7 @@ class CallbackRequest
     /**
      * @return Identity
      */
-    public function getTo(): Identity
+    public function getTo(): ?Identity
     {
         return $this->to;
     }
@@ -114,7 +114,7 @@ class CallbackRequest
     /**
      * @return Identity
      */
-    public function getFrom(): Identity
+    public function getFrom(): ?Identity
     {
         return $this->from;
     }
