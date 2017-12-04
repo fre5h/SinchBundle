@@ -30,23 +30,9 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 Sing up in [Sinch.com](https://www.sinch.com) and [create a new app](https://www.sinch.com/dashboard/#/quickstart).
 
-### Install via Composer
+### Add dependency via Composer
 
 ```composer req fresh/sinch-bundle='dev-master'```
-
-### Register the bundle
-
-To start using the bundle, register it in `app/AppKernel.php`:
-
-```php
-public function registerBundles()
-{
-    $bundles = [
-        // Other bundles...
-        new Fresh\SinchBundle\FreshSinchBundle(),
-    ];
-}
-```
 
 ### Add key and secret to parameters.yml
 
@@ -88,8 +74,6 @@ echo $messageId;
 
 ### Example of checking SMS status
 
-#### Get the status of SMS
-
 ```php
 $sinch = $this->get('sinch');
 
@@ -98,11 +82,8 @@ $messageId = '+13155555552';
 
 // Status is a string with one of these values: pending, successful, faulted, unknown
 $status = $sinch->getStatusOfSMS($messageId);
-```
 
-#### Helper methods for checking concrete SMS status
-
-```php
+// Other helper methods
 // Returns true or false
 $sinch->smsIsSentSuccessfully($messageId);
 $sinch->smsIsPending($messageId);
