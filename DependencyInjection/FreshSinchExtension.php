@@ -38,12 +38,4 @@ class FreshSinchExtension extends Extension
         $container->setParameter('sinch.secret', $config['secret']);
         $container->setParameter('sinch.from', $config['from']);
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAlias()
-    {
-        return 'fresh_sinch';
-    }
 }

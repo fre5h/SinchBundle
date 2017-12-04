@@ -154,7 +154,7 @@ class CallbackRequest
     /**
      * @return \DateTime
      */
-    public function getTimestamp(): \DateTime
+    public function getTimestamp(): ?\DateTime
     {
         return $this->timestamp;
     }
