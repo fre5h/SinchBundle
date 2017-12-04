@@ -22,7 +22,6 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 * PHP 7.1 *and later*
 * Symfony 3.4 *and later*
-* Guzzle PHP HTTP Client *6.3.**
 
 ## Installation
 
@@ -62,45 +61,57 @@ fresh_sinch:
 ### Example of sending SMS
 
 ```php
-$sinch = $this->get('sinch');
+use Fresh\SinchBundle\Service\Sinch;
 
-// Set the outbound number where you want to send the SMS
-$phoneNumber = '+13155555552';
-$messageId = $sinch->sendSMS($phoneNumber, 'Your message');
-
-// If success then the ID of sent message is returned (it is an integer value)
-echo $messageId;
+class Foo {
+    public function bar(Sinch $sinch) {
+        $phoneNumber = '+13155555552'; // Set the outbound number where you want to send the SMS
+        $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+        
+        // If success then the ID of sent message is returned (it is an integer value)
+        echo $messageId;
+    }
+}
 ```
 
 ### Example of checking SMS status
 
 ```php
-$sinch = $this->get('sinch');
+use Fresh\SinchBundle\Service\Sinch;
 
-// The ID of Sinch message you get after successful SMS sending
-$messageId = '+13155555552';
-
-// Status is a string with one of these values: pending, successful, faulted, unknown
-$status = $sinch->getStatusOfSMS($messageId);
-
-// Other helper methods
-// Returns true or false
-$sinch->smsIsSentSuccessfully($messageId);
-$sinch->smsIsPending($messageId);
-$sinch->smsIsFaulted($messageId);
-$sinch->smsInUnknownStatus($messageId);
+class Foo {
+    public function bar(Sinch $sinch) {
+        $messageId = 123456789'; // The ID of Sinch message you get after successful SMS sending
+        
+        // Status is a string with one of these values: pending, successful, faulted, unknown
+        $status = $sinch->getStatusOfSMS($messageId);
+        
+        // Other helper methods, return true of false
+        $sinch->smsIsSentSuccessfully($messageId);
+        $sinch->smsIsPending($messageId);
+        $sinch->smsIsFaulted($messageId);
+        $sinch->smsInUnknownStatus($messageId);
+    }
+}
 ```
 
 #### Catching and processing Sinch exceptions
 
 ```php
-try {
-    $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
-    // Some logic related to SMS processing...
-} catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
-    $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
-    // Here you can, for example, send urgent emails to admin users
-    // to notify that your Sinch account run out of money
+use Fresh\SinchBundle\Exception\SinchPaymentRequiredException;
+use Fresh\SinchBundle\Service\Sinch;
+
+class Foo {
+    public function bar(Sinch $sinch) {
+        try {
+            $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+            // Some logic related to SMS processing...
+        } catch (SinchPaymentRequiredException $e) {
+            $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
+            // Here you can, for example, send urgent emails to admin users
+            // to notify that your Sinch account run out of money
+        }
+    }
 }
 ```
 
