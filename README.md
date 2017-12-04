@@ -43,8 +43,8 @@ parameters:
     sinch.secret: EnterSecretForYourSinchApp
 ```
 
-During the composer update you have to enter your own key and secret for your Sinch application, which you can find
-in your [Sinch dashboard](https://www.sinch.com/dashboard/#/apps).
+During the composer update you have to enter your own key and secret for your Sinch application,
+which you can find in your [Sinch dashboard](https://www.sinch.com/dashboard/#/apps).
 
 ### Update config.yml
 
@@ -65,8 +65,8 @@ use Fresh\SinchBundle\Service\Sinch;
 
 class Foo {
     public function bar(Sinch $sinch) {
-        $phoneNumber = '+13155555552'; // Set the outbound number where you want to send the SMS
-        $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+        // Set the outbound number where you want to send the SMS
+        $messageId = $sinch->sendSMS('+13155555552', 'Your message');
         
         // If success then the ID of sent message is returned (it is an integer value)
         echo $messageId;
@@ -81,7 +81,7 @@ use Fresh\SinchBundle\Service\Sinch;
 
 class Foo {
     public function bar(Sinch $sinch) {
-        $messageId = 123456789'; // The ID of Sinch message you get after successful SMS sending
+        $messageId = 123456789; // The ID of Sinch message you get after successful SMS sending
         
         // Status is a string with one of these values: pending, successful, faulted, unknown
         $status = $sinch->getStatusOfSMS($messageId);
@@ -98,7 +98,7 @@ class Foo {
 #### Catching and processing Sinch exceptions
 
 ```php
-use Fresh\SinchBundle\Exception\SinchPaymentRequiredException;
+use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
 use Fresh\SinchBundle\Service\Sinch;
 
 class Foo {
