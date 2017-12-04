@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -18,13 +18,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * IdentityTypeTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class IdentityTypeTest extends TypeTestCase
 {
     public function testGetBlockPrefix()
     {
-        $this->assertNull((new IdentityType)->getBlockPrefix());
+        $this->assertEmpty((new IdentityType)->getBlockPrefix());
     }
 
     public function testFormBuilder()
@@ -53,7 +53,7 @@ class IdentityTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $data = [
-            'type'     => 'number',
+            'type' => 'number',
             'endpoint' => '+46700000000',
         ];
 
@@ -76,7 +76,7 @@ class IdentityTypeTest extends TypeTestCase
         $view = $form->createView();
         $children = $view->children;
 
-        foreach (array_keys($data) as $key) {
+        foreach (\array_keys($data) as $key) {
             $this->assertArrayHasKey($key, $children);
         }
     }

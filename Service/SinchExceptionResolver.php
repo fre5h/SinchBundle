@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * SinchExceptionResolver.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SinchExceptionResolver
 {
@@ -36,9 +36,9 @@ class SinchExceptionResolver
      *
      * @return \Exception|SinchException
      */
-    public static function createAppropriateSinchException(ClientException $e)
+    public static function createAppropriateSinchException(ClientException $e): \Exception
     {
-        $response = json_decode($e->getResponse()->getBody()->getContents(), true);
+        $response = \json_decode($e->getResponse()->getBody()->getContents(), true);
         $responseStatusCode = $e->getCode();
 
         $errorCode = (int) $response['errorCode'];
@@ -49,18 +49,23 @@ class SinchExceptionResolver
         switch ($responseStatusCode) {
             case Response::HTTP_BAD_REQUEST:
                 $exception = self::getSinchExceptionForBadRequest($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_UNAUTHORIZED:
                 $exception = self::getSinchExceptionForUnauthorized($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_PAYMENT_REQUIRED:
                 $exception = self::getSinchExceptionForPaymentRequired($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_FORBIDDEN:
                 $exception = self::getSinchExceptionForForbidden($errorCode, $errorMessage);
+
                 break;
             case Response::HTTP_INTERNAL_SERVER_ERROR:
                 $exception = self::getSinchExceptionForInternalServerError($errorCode, $errorMessage);
+
                 break;
         }
 
@@ -77,19 +82,22 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForBadRequest($errorCode, $errorMessage)
+    private static function getSinchExceptionForBadRequest(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
         switch ($errorCode) {
             case SinchErrorCode::PARAMETER_VALIDATION:
                 $exception = new SinchParameterValidationException($errorMessage);
+
                 break;
             case SinchErrorCode::MISSING_PARAMETER:
                 $exception = new SinchMissingParameterException($errorMessage);
+
                 break;
             case SinchErrorCode::INVALID_REQUEST:
                 $exception = new SinchInvalidRequestException($errorMessage);
+
                 break;
         }
 
@@ -102,7 +110,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForUnauthorized($errorCode, $errorMessage)
+    private static function getSinchExceptionForUnauthorized(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -121,7 +129,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForPaymentRequired($errorCode, $errorMessage)
+    private static function getSinchExceptionForPaymentRequired(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -138,20 +146,23 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForForbidden($errorCode, $errorMessage)
+    private static function getSinchExceptionForForbidden(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
         switch ($errorCode) {
             case SinchErrorCode::FORBIDDEN_REQUEST:
                 $exception = new SinchForbiddenRequestException($errorMessage);
+
                 break;
             case SinchErrorCode::INVALID_AUTHORIZATION_SCHEME_FOR_CALLING_THE_METHOD:
                 $exception = new SinchInvalidAuthorizationSchemeException($errorMessage);
+
                 break;
             case SinchErrorCode::NO_VERIFIED_PHONE_NUMBER_ON_YOUR_SINCH_ACCOUNT:
             case SinchErrorCode::SANDBOX_SMS_ONLY_ALLOWED_TO_BE_SENT_TO_VERIFIED_NUMBERS:
                 $exception = new SinchNoVerifiedPhoneNumberException($errorMessage);
+
                 break;
         }
 
@@ -164,7 +175,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForInternalServerError($errorCode, $errorMessage)
+    private static function getSinchExceptionForInternalServerError(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 

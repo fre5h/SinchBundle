@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -17,7 +17,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * SmsMessageCallbackEvent.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SmsMessageCallbackEvent extends Event
 {
@@ -35,7 +35,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return string
      */
-    public function getEvent()
+    public function getEvent(): string
     {
         return $this->callbackRequest->getEvent();
     }
@@ -43,7 +43,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return Identity
      */
-    public function getTo()
+    public function getTo(): Identity
     {
         return $this->callbackRequest->getTo();
     }
@@ -51,7 +51,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return Identity
      */
-    public function getFrom()
+    public function getFrom(): Identity
     {
         return $this->callbackRequest->getFrom();
     }
@@ -59,7 +59,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->callbackRequest->getMessage();
     }
@@ -67,7 +67,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return \DateTime
      */
-    public function getTimestamp()
+    public function getTimestamp(): \DateTime
     {
         return $this->callbackRequest->getTimestamp();
     }
@@ -75,7 +75,7 @@ class SmsMessageCallbackEvent extends Event
     /**
      * @return int
      */
-    public function getVersion()
+    public function getVersion(): int
     {
         return $this->callbackRequest->getVersion();
     }

@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -12,13 +12,14 @@ namespace Fresh\SinchBundle\Tests\Model;
 
 use Fresh\SinchBundle\Model\CallbackRequest;
 use Fresh\SinchBundle\Model\Identity;
+use PHPUnit\Framework\TestCase;
 
 /**
  * CallbackRequestTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class CallbackRequestTest extends \PHPUnit_Framework_TestCase
+class CallbackRequestTest extends TestCase
 {
     public function testConstructor()
     {

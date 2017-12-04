@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -21,30 +21,22 @@ use Fresh\SinchBundle\Controller\SinchController;
 /**
  * SinchControllerTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SinchControllerTest extends WebTestCase
 {
     const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|TraceableEventDispatcher
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|TraceableEventDispatcher */
     private $eventDispatcher;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|FormFactory
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|FormFactory */
     private $formFactory;
 
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|Form
-     */
+    /** @var \PHPUnit_Framework_MockObject_MockObject|Form */
     private $form;
 
-    /**
-     * @var SinchController
-     */
+    /** @var SinchController */
     private $controller;
 
     protected function setUp()

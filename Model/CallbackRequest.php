@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * CallbackRequest Model.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  *
  * @see https://www.sinch.com/docs/sms/#incomingsms
  */
@@ -72,9 +72,9 @@ class CallbackRequest
     private $version;
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getEvent()
+    public function getEvent(): ?string
     {
         return $this->event;
     }
@@ -84,7 +84,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setEvent($event)
+    public function setEvent(string $event): self
     {
         $this->event = $event;
 
@@ -94,7 +94,7 @@ class CallbackRequest
     /**
      * @return Identity
      */
-    public function getTo()
+    public function getTo(): ?Identity
     {
         return $this->to;
     }
@@ -104,7 +104,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setTo(Identity $to)
+    public function setTo(Identity $to): self
     {
         $this->to = $to;
 
@@ -114,7 +114,7 @@ class CallbackRequest
     /**
      * @return Identity
      */
-    public function getFrom()
+    public function getFrom(): ?Identity
     {
         return $this->from;
     }
@@ -124,7 +124,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setFrom(Identity $from)
+    public function setFrom(Identity $from): self
     {
         $this->from = $from;
 
@@ -132,9 +132,9 @@ class CallbackRequest
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getMessage()
+    public function getMessage(): ?string
     {
         return $this->message;
     }
@@ -144,7 +144,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->message = $message;
 
@@ -154,7 +154,7 @@ class CallbackRequest
     /**
      * @return \DateTime
      */
-    public function getTimestamp()
+    public function getTimestamp(): ?\DateTime
     {
         return $this->timestamp;
     }
@@ -164,7 +164,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setTimestamp(\DateTime $timestamp)
+    public function setTimestamp(\DateTime $timestamp): self
     {
         $this->timestamp = $timestamp;
 
@@ -172,9 +172,9 @@ class CallbackRequest
     }
 
     /**
-     * @return int
+     * @return string|null
      */
-    public function getVersion()
+    public function getVersion(): ?int
     {
         return $this->version;
     }
@@ -184,7 +184,7 @@ class CallbackRequest
      *
      * @return $this
      */
-    public function setVersion($version)
+    public function setVersion(int $version): self
     {
         $this->version = $version;
 

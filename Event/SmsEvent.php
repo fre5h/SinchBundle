@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
 /**
  * SmsEvent.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SmsEvent extends Event
 {
@@ -33,7 +33,7 @@ class SmsEvent extends Event
      * @param string      $message
      * @param string|null $from
      */
-    public function __construct($number, $message, $from = null)
+    public function __construct(string $number, string $message, ?string $from = null)
     {
         $this->number = $number;
         $this->message = $message;
@@ -43,7 +43,7 @@ class SmsEvent extends Event
     /**
      * @return string
      */
-    public function getNumber()
+    public function getNumber(): string
     {
         return $this->number;
     }
@@ -53,7 +53,7 @@ class SmsEvent extends Event
      *
      * @return $this
      */
-    public function setNumber($number)
+    public function setNumber(string $number): self
     {
         $this->number = $number;
 
@@ -63,7 +63,7 @@ class SmsEvent extends Event
     /**
      * @return string
      */
-    public function getMessage()
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -73,7 +73,7 @@ class SmsEvent extends Event
      *
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage(string $message): self
     {
         $this->message = $message;
 
@@ -83,7 +83,7 @@ class SmsEvent extends Event
     /**
      * @return null|string
      */
-    public function getFrom()
+    public function getFrom(): ?string
     {
         return $this->from;
     }
@@ -93,7 +93,7 @@ class SmsEvent extends Event
      *
      * @return $this
      */
-    public function setFrom($from)
+    public function setFrom(?string $from): self
     {
         $this->from = $from;
 

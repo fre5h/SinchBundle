@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,17 +13,16 @@ namespace Fresh\SinchBundle\Helper;
 /**
  * SinchSupportedCountries.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SinchSupportedCountries
 {
     /**
-     * List of supported countries by Sinch.
-     *
      * @var array
+     *
      * @static
      */
-    public static $supportedCountries = [
+    const SUPPORTED_COUNTRIES = [
         'AF' => 'Afghanistan',
         'AM' => 'Armenia',
         'AR' => 'Argentina',
@@ -132,14 +131,12 @@ class SinchSupportedCountries
     ];
 
     /**
-     * Check if country is supported.
-     *
      * @param string $countryCode
      *
      * @return bool
      */
-    public static function isCountrySupported($countryCode)
+    public static function isCountrySupported(string $countryCode): bool
     {
-        return isset(self::$supportedCountries[$countryCode]);
+        return isset(self::SUPPORTED_COUNTRIES[$countryCode]);
     }
 }

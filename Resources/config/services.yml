@@ -1,19 +1,22 @@
 parameters:
     sinch.controller.class: Fresh\SinchBundle\Controller\SinchController
-    sinch.service.class: Fresh\SinchBundle\Service\SinchService
+    sinch.service.class: Fresh\SinchBundle\Service\Sinch
 
 services:
-    sinch_controller:
-        class: "%sinch.controller.class%"
-        arguments:
-            - "@form.factory"
-            - "@event_dispatcher"
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            $host: "%sinch.host%"
+            $key: "%sinch.key%"
+            $secret: "%sinch.secret%"
+            $from: "%sinch.from%"
 
-    sinch:
-        class: "%sinch.service.class%"
-        arguments:
-            - "@event_dispatcher"
-            - "%sinch.host%"
-            - "%sinch.key%"
-            - "%sinch.secret%"
-            - "%sinch.from%"
+    Fresh\SinchBundle\Controller\:
+        resource: '../../Controller/'
+        tags:
+            - 'controller.service_arguments'
+
+    Fresh\SinchBundle\Service\Sinch:
+        class: Fresh\SinchBundle\Service\Sinch

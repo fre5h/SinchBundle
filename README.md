@@ -7,12 +7,11 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 ![Sinch Logo](/Resources/images/sinch-logo.png)
 
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/fre5h/SinchBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/fre5h/SinchBundle/)
-[![Build Status](https://img.shields.io/travis/fre5h/SinchBundle.svg?style=flat-square)](https://travis-ci.org/fre5h/SinchBundle)
+[![Build Status](https://img.shields.io/travis/fre5h/SinchBundle/master.svg?style=flat-square)](https://travis-ci.org/fre5h/SinchBundle)
 [![CodeCov](https://img.shields.io/codecov/c/github/fre5h/SinchBundle.svg?style=flat-square)](https://codecov.io/github/fre5h/SinchBundle)
 [![License](https://img.shields.io/packagist/l/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![Latest Stable Version](https://img.shields.io/packagist/v/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![Total Downloads](https://img.shields.io/packagist/dt/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
-[![Dependency Status](https://img.shields.io/versioneye/d/php/fresh:sinch-bundle.svg?style=flat-square)](https://www.versioneye.com/user/projects/562fcca536d0ab00190015a7)
 [![StyleCI](https://styleci.io/repos/44092074/shield?style=flat-square)](https://styleci.io/repos/44092074)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/fre5h/SinchBundle)
 
@@ -21,9 +20,8 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 ## Requirements
 
-* PHP 5.6 *and later*
-* Symfony 2.8.6 *and later*
-* Guzzle PHP HTTP Client *6.1.**
+* PHP 7.1 *and later*
+* Symfony 3.4 *and later*
 
 ## Installation
 
@@ -31,23 +29,9 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 Sing up in [Sinch.com](https://www.sinch.com) and [create a new app](https://www.sinch.com/dashboard/#/quickstart).
 
-### Install via Composer
+### Add dependency via Composer
 
-```php composer.phar require fresh/sinch-bundle='dev-master'```
-
-### Register the bundle
-
-To start using the bundle, register it in `app/AppKernel.php`:
-
-```php
-public function registerBundles()
-{
-    $bundles = [
-        // Other bundles...
-        new Fresh\SinchBundle\FreshSinchBundle(),
-    ];
-}
-```
+```composer req fresh/sinch-bundle='dev-master'```
 
 ### Add key and secret to parameters.yml
 
@@ -55,12 +39,12 @@ Add the following lines to your `parameters.yml.dist` file:
 
 ```yml
 parameters:
-    sinch.key:    EnterKeyForYourSinchApp
+    sinch.key: EnterKeyForYourSinchApp
     sinch.secret: EnterSecretForYourSinchApp
 ```
 
-During the composer update you have to enter your own key and secret for your Sinch application, which you can find
-in your [Sinch dashboard](https://www.sinch.com/dashboard/#/apps).
+During the composer update you have to enter your own key and secret for your Sinch application,
+which you can find in your [Sinch dashboard](https://www.sinch.com/dashboard/#/apps).
 
 ### Update config.yml
 
@@ -68,59 +52,66 @@ Add the following lines to `config.yml` file:
 
 ```yml
 fresh_sinch:
-    key:    "%sinch.key%"
+    key: "%sinch.key%"
     secret: "%sinch.secret%"
 ```
 
-## Using
+## Usage
 
 ### Example of sending SMS
 
 ```php
-$sinch = $this->get('sinch');
+use Fresh\SinchBundle\Service\Sinch;
 
-// Set the outbound number where you want to send the SMS
-$phoneNumber = '+13155555552';
-$messageId = $sinch->sendSMS($phoneNumber, 'Your message');
-
-// If success then the ID of sent message is returned (it is an integer value)
-echo $messageId;
+class Foo {
+    public function bar(Sinch $sinch) {
+        // Set the outbound number where you want to send the SMS
+        $messageId = $sinch->sendSMS('+13155555552', 'Your message');
+        
+        // If success then the ID of sent message is returned (it is an integer value)
+        echo $messageId;
+    }
+}
 ```
 
 ### Example of checking SMS status
 
-#### Get the status of SMS
-
 ```php
-$sinch = $this->get('sinch');
+use Fresh\SinchBundle\Service\Sinch;
 
-// The ID of Sinch message you get after successful SMS sending
-$messageId = '+13155555552';
-
-// Status is a string with one of these values: pending, successful, faulted, unknown
-$status = $sinch->getStatusOfSMS($messageId);
-```
-
-#### Helper methods for checking concrete SMS status
-
-```php
-// Returns true or false
-$sinch->smsIsSentSuccessfully($messageId);
-$sinch->smsIsPending($messageId);
-$sinch->smsIsFaulted($messageId);
-$sinch->smsInUnknownStatus($messageId);
+class Foo {
+    public function bar(Sinch $sinch) {
+        $messageId = 123456789; // The ID of Sinch message you get after successful SMS sending
+        
+        // Status is a string with one of these values: pending, successful, faulted, unknown
+        $status = $sinch->getStatusOfSMS($messageId);
+        
+        // Other helper methods, return true of false
+        $sinch->smsIsSentSuccessfully($messageId);
+        $sinch->smsIsPending($messageId);
+        $sinch->smsIsFaulted($messageId);
+        $sinch->smsInUnknownStatus($messageId);
+    }
+}
 ```
 
 #### Catching and processing Sinch exceptions
 
 ```php
-try {
-    $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
-    // Some logic related to SMS processing...
-} catch (\Fresh\SinchBundle\Exception\SinchPaymentRequiredException $e) {
-    $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
-    // Here you can, for example, send urgent emails to admin users
-    // to notify that your Sinch account run out of money
+use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
+use Fresh\SinchBundle\Service\Sinch;
+
+class Foo {
+    public function bar(Sinch $sinch) {
+        try {
+            $messageId = $sinch->sendSMS($phoneNumber, 'Your message');
+            // Some logic related to SMS processing...
+        } catch (SinchPaymentRequiredException $e) {
+            $logger->error('SMS was not sent. Looks like your Sinch account run out of money.');
+            // Here you can, for example, send urgent emails to admin users
+            // to notify that your Sinch account run out of money
+        }
+    }
 }
 ```
 
