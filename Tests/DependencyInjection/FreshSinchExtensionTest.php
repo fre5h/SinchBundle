@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -11,25 +11,21 @@
 namespace Fresh\SinchBundle\Tests\DependencyInjection;
 
 use Fresh\SinchBundle\DependencyInjection\FreshSinchExtension;
-use Symfony\Component\Config\Resource\FileResource;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Yaml\Parser;
 
 /**
  * FreshSinchExtensionTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
+class FreshSinchExtensionTest extends TestCase
 {
-    /**
-     * @var FreshSinchExtension $extension Extension
-     */
+    /** @var FreshSinchExtension */
     private $extension;
 
-    /**
-     * @var ContainerBuilder $container Container
-     */
+    /** @var ContainerBuilder */
     private $container;
 
     protected function setUp()
@@ -41,12 +37,11 @@ class FreshSinchExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadExtension()
     {
-        $yaml
-                = <<<EOF
+        $yaml = <<<'CONFIG'
 fresh_sinch:
     key: some_dummy_key
     secret: some_dummy_secret
-EOF;
+CONFIG;
         $parser = new Parser();
         $config = $parser->parse($yaml);
 
@@ -55,17 +50,6 @@ EOF;
         $this->container->set('event_dispatcher', new \stdClass());
         $this->container->set('form.factory', new \stdClass());
         $this->container->compile();
-
-        // Check loaded resources
-        $resources    = $this->container->getResources();
-        $resourceList = [];
-        foreach ($resources as $resource) {
-            if ($resource instanceof FileResource) {
-                $path           = $resource->getResource();
-                $resourceList[] = substr($path, strrpos($path, '/') + 1);
-            }
-        }
-        $this->assertContains('services.yml', $resourceList);
 
         // Check auto generated parameters
         $this->assertTrue($this->container->hasParameter('sinch.host'));

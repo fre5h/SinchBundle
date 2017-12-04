@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * SinchExceptionResolver.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class SinchExceptionResolver
 {
@@ -36,9 +36,9 @@ class SinchExceptionResolver
      *
      * @return \Exception|SinchException
      */
-    public static function createAppropriateSinchException(ClientException $e)
+    public static function createAppropriateSinchException(ClientException $e): \Exception
     {
-        $response = json_decode($e->getResponse()->getBody()->getContents(), true);
+        $response = \json_decode($e->getResponse()->getBody()->getContents(), true);
         $responseStatusCode = $e->getCode();
 
         $errorCode = (int) $response['errorCode'];
@@ -77,7 +77,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForBadRequest($errorCode, $errorMessage)
+    private static function getSinchExceptionForBadRequest(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -102,7 +102,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForUnauthorized($errorCode, $errorMessage)
+    private static function getSinchExceptionForUnauthorized(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -121,7 +121,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForPaymentRequired($errorCode, $errorMessage)
+    private static function getSinchExceptionForPaymentRequired(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -138,7 +138,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForForbidden($errorCode, $errorMessage)
+    private static function getSinchExceptionForForbidden(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 
@@ -164,7 +164,7 @@ class SinchExceptionResolver
      *
      * @return SinchException|null
      */
-    private static function getSinchExceptionForInternalServerError($errorCode, $errorMessage)
+    private static function getSinchExceptionForInternalServerError(int $errorCode, string $errorMessage): ?SinchException
     {
         $exception = null;
 

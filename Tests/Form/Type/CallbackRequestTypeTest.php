@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * CallbackRequestTypeTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class CallbackRequestTypeTest extends TypeTestCase
 {
@@ -58,18 +58,18 @@ class CallbackRequestTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $data = [
-            'event'     => 'incomingSms',
-            'to'        => [
-                'type'     => 'number',
+            'event' => 'incomingSms',
+            'to' => [
+                'type' => 'number',
                 'endpoint' => '+46700000001',
             ],
-            'from'      => [
-                'type'     => 'number',
+            'from' => [
+                'type' => 'number',
                 'endpoint' => '+46700000000',
             ],
-            'message'   => 'Hello world',
+            'message' => 'Hello world',
             'timestamp' => '2014-12-01T12:00:00Z',
-            'version'   => 1,
+            'version' => 1,
         ];
 
         $form = $this->factory->create(CallbackRequestType::class);
@@ -100,7 +100,7 @@ class CallbackRequestTypeTest extends TypeTestCase
         $view = $form->createView();
         $children = $view->children;
 
-        foreach (array_keys($data) as $key) {
+        foreach (\array_keys($data) as $key) {
             $this->assertArrayHasKey($key, $children);
         }
     }

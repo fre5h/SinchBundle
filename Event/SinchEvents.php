@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,12 +13,10 @@ namespace Fresh\SinchBundle\Event;
 /**
  * SinchEvents.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 final class SinchEvents
 {
-    // region SMS sending
-
     /**
      * This event is triggered before the SMS is going to be sent.
      *
@@ -33,16 +31,10 @@ final class SinchEvents
      */
     const POST_SMS_SEND = 'sinch.sms.post_send';
 
-    // endregion
-
-    // region Callback
-
     /**
      * This event is triggered callback from Sinch is received.
      *
      * @see \Fresh\SinchBundle\Event\SmsMessageCallbackEvent Listeners receive an instance of this class
      */
     const CALLBACK_RECEIVED = 'sinch.callback.received';
-
-    // endregion
 }

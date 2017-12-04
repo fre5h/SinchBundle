@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,22 +13,23 @@ namespace Fresh\SinchBundle\Tests\Event;
 use Fresh\SinchBundle\Event\SmsMessageCallbackEvent;
 use Fresh\SinchBundle\Model\CallbackRequest;
 use Fresh\SinchBundle\Model\Identity;
+use PHPUnit\Framework\TestCase;
 
 /**
  * SmsMessageCallbackEventTest.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SmsMessageCallbackEventTest extends \PHPUnit_Framework_TestCase
+class SmsMessageCallbackEventTest extends TestCase
 {
     public function testConstructor()
     {
-        $event     = 'incomingSms';
-        $from      = new Identity();
-        $to        = new Identity();
-        $message   = 'Hello world';
+        $event = 'incomingSms';
+        $from = new Identity();
+        $to = new Identity();
+        $message = 'Hello world';
         $timestamp = new \DateTime('now');
-        $version   = 1;
+        $version = 1;
 
         $callbackRequest = (new CallbackRequest())
             ->setEvent($event)

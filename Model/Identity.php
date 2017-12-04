@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Identity Model.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  *
  * @see https://www.sinch.com/docs/sms/#incomingsms
  */
@@ -40,7 +40,7 @@ class Identity
     /**
      * @return string
      */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
@@ -50,7 +50,7 @@ class Identity
      *
      * @return $this
      */
-    public function setType($type)
+    public function setType(string $type): self
     {
         $this->type = $type;
 
@@ -60,7 +60,7 @@ class Identity
     /**
      * @return string
      */
-    public function getEndpoint()
+    public function getEndpoint(): string
     {
         return $this->endpoint;
     }
@@ -70,7 +70,7 @@ class Identity
      *
      * @return $this
      */
-    public function setEndpoint($endpoint)
+    public function setEndpoint(string $endpoint): self
     {
         $this->endpoint = $endpoint;
 

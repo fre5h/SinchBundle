@@ -12,7 +12,6 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 [![License](https://img.shields.io/packagist/l/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![Latest Stable Version](https://img.shields.io/packagist/v/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![Total Downloads](https://img.shields.io/packagist/dt/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
-[![Dependency Status](https://img.shields.io/versioneye/d/php/fresh:sinch-bundle.svg?style=flat-square)](https://www.versioneye.com/user/projects/562fcca536d0ab00190015a7)
 [![StyleCI](https://styleci.io/repos/44092074/shield?style=flat-square)](https://styleci.io/repos/44092074)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/fre5h/SinchBundle)
 
@@ -21,9 +20,9 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 ## Requirements
 
-* PHP 5.6 *and later*
-* Symfony 2.8.6 *and later*
-* Guzzle PHP HTTP Client *6.1.**
+* PHP 7.1 *and later*
+* Symfony 3.4 *and later*
+* Guzzle PHP HTTP Client *6.3.**
 
 ## Installation
 
@@ -33,7 +32,7 @@ Sing up in [Sinch.com](https://www.sinch.com) and [create a new app](https://www
 
 ### Install via Composer
 
-```php composer.phar require fresh/sinch-bundle='dev-master'```
+```composer req fresh/sinch-bundle='dev-master'```
 
 ### Register the bundle
 
@@ -55,7 +54,7 @@ Add the following lines to your `parameters.yml.dist` file:
 
 ```yml
 parameters:
-    sinch.key:    EnterKeyForYourSinchApp
+    sinch.key: EnterKeyForYourSinchApp
     sinch.secret: EnterSecretForYourSinchApp
 ```
 
@@ -68,7 +67,7 @@ Add the following lines to `config.yml` file:
 
 ```yml
 fresh_sinch:
-    key:    "%sinch.key%"
+    key: "%sinch.key%"
     secret: "%sinch.secret%"
 ```
 

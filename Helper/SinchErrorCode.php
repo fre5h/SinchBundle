@@ -2,7 +2,7 @@
 /*
  * This file is part of the FreshSinchBundle
  *
- * (c) Artem Genvald <genvaldartem@gmail.com>
+ * (c) Artem Henvald <genvaldartem@gmail.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@ namespace Fresh\SinchBundle\Helper;
 /**
  * SinchErrorCode.
  *
- * @author Artem Genvald <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 final class SinchErrorCode
 {
@@ -31,4 +31,11 @@ final class SinchErrorCode
     const SANDBOX_SMS_ONLY_ALLOWED_TO_BE_SENT_TO_VERIFIED_NUMBERS = 40303;
 
     const INTERNAL_ERROR = 50000;
+
+    /**
+     * Constructor.
+     */
+    private function __construct()
+    {
+    }
 }
