@@ -10,14 +10,14 @@
 
 namespace Service;
 
-use Fresh\SinchBundle\Service\SinchService;
+use Fresh\SinchBundle\Service\Sinch;
 
 /**
- * SinchServiceTest.
+ * SinchTest.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SinchServiceTest
+class SinchTest
 {
     public function testSendSms()
     {

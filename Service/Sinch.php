@@ -16,16 +16,15 @@ use Fresh\SinchBundle\Exception\SinchException;
 use Fresh\SinchBundle\Helper\SinchSmsStatus;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * SinchService.
+ * Sinch Service.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SinchService
+class Sinch
 {
     const URL_FOR_SENDING_SMS = '/v1/sms/';
     const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
@@ -76,11 +75,10 @@ class SinchService
      * @return int Message ID
      *
      * @throws SinchException
-     * @throws GuzzleException
      */
     public function sendSMS(string $phoneNumber, string $messageText, ?string $from = null): ?int
     {
-        $uri = self::URL_FOR_SENDING_SMS.$phoneNumber; // @todo validate phone number
+        // @todo validate phone number
 
         $body = [
             'auth' => [$this->key, $this->secret],
@@ -99,7 +97,7 @@ class SinchService
             $smsEvent = new SmsEvent($phoneNumber, $messageText, $from);
 
             $this->dispatcher->dispatch(SinchEvents::PRE_SMS_SEND, $smsEvent);
-            $response = $this->guzzleHTTPClient->post($uri, $body);
+            $response = $this->guzzleHTTPClient->post(self::URL_FOR_SENDING_SMS.$phoneNumber, $body);
             $this->dispatcher->dispatch(SinchEvents::POST_SMS_SEND, $smsEvent);
         } catch (ClientException $e) {
             throw SinchExceptionResolver::createAppropriateSinchException($e);
@@ -125,8 +123,6 @@ class SinchService
      * @param int $messageId
      *
      * @return string
-     *
-     * @throws GuzzleException
      */
     public function getStatusOfSMS(int $messageId): string
     {
@@ -212,20 +208,16 @@ class SinchService
      * @param int $messageId
      *
      * @return array|null
-     *
-     * @throws SinchException
      */
     private function sendRequestToCheckStatusOfSMS(int $messageId): ?array
     {
-        $uri = self::URL_FOR_CHECKING_SMS_STATUS.$messageId;
-
         $body = [
             'auth' => [$this->key, $this->secret],
             'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
         ];
 
         try {
-            $response = $this->guzzleHTTPClient->get($uri, $body);
+            $response = $this->guzzleHTTPClient->get(self::URL_FOR_CHECKING_SMS_STATUS.$messageId, $body);
         } catch (ClientException $e) {
             throw SinchExceptionResolver::createAppropriateSinchException($e);
         }
