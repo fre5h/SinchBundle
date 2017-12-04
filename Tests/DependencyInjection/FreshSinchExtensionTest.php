@@ -10,9 +10,12 @@
 
 namespace Fresh\SinchBundle\Tests\DependencyInjection;
 
+use Fresh\SinchBundle\Controller\SinchController;
 use Fresh\SinchBundle\DependencyInjection\FreshSinchExtension;
+use Fresh\SinchBundle\Service\Sinch;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\Yaml\Parser;
 
 /**
@@ -51,13 +54,19 @@ CONFIG;
         $this->container->set('form.factory', new \stdClass());
         $this->container->compile();
 
-        // Check auto generated parameters
+        $this->assertArrayHasKey(Sinch::class, $this->container->getRemovedIds());
+        $this->assertArrayHasKey(SinchController::class, $this->container->getRemovedIds());
+
+        $this->assertArrayNotHasKey(Sinch::class, $this->container->getDefinitions());
+        $this->assertArrayNotHasKey(SinchController::class, $this->container->getDefinitions());
+
+        $this->expectException(ServiceNotFoundException::class);
+        $this->container->get(Sinch::class);
+        $this->container->get(SinchController::class);
+
         $this->assertTrue($this->container->hasParameter('sinch.host'));
         $this->assertTrue($this->container->hasParameter('sinch.key'));
         $this->assertTrue($this->container->hasParameter('sinch.secret'));
         $this->assertTrue($this->container->hasParameter('sinch.from'));
-
-        // Check that service has been loaded
-        $this->assertTrue($this->container->has('sinch'));
     }
 }
