@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Fresh\SinchBundle\Service;
 
 use Fresh\SinchBundle\Event\SinchEvents;
@@ -26,8 +28,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class Sinch
 {
-    const URL_FOR_SENDING_SMS = '/v1/sms/';
-    const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
+    public const URL_FOR_SENDING_SMS = '/v1/sms/';
+
+    public const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
 
     /** @var Client */
     private $guzzleHTTPClient;

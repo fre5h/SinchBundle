@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Fresh\SinchBundle\Helper;
 
 /**
@@ -17,10 +19,13 @@ namespace Fresh\SinchBundle\Helper;
  */
 final class SinchSmsStatus
 {
-    const PENDING = 'pending';
-    const SUCCESSFUL = 'successful';
-    const FAULTED = 'faulted';
-    const UNKNOWN = 'unknown';
+    public const PENDING = 'pending';
+
+    public const SUCCESSFUL = 'successful';
+
+    public const FAULTED = 'faulted';
+
+    public const UNKNOWN = 'unknown';
 
     /**
      * Constructor.

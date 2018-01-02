@@ -25,7 +25,7 @@ use Fresh\SinchBundle\Controller\SinchController;
  */
 class SinchControllerTest extends WebTestCase
 {
-    const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
+    public const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
 
     /** @var \PHPUnit_Framework_MockObject_MockObject|TraceableEventDispatcher */
     private $eventDispatcher;

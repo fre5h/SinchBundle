@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Fresh\SinchBundle\Event;
 
 /**
@@ -22,19 +24,19 @@ final class SinchEvents
      *
      * @see \Fresh\SinchBundle\Event\SmsEvent Listeners receive an instance of this class
      */
-    const PRE_SMS_SEND = 'sinch.sms.pre_send';
+    public const PRE_SMS_SEND = 'sinch.sms.pre_send';
 
     /**
      * This event is triggered after the SMS is successfully sent.
      *
      * @see \Fresh\SinchBundle\Event\SmsEvent Listeners receive an instance of this class
      */
-    const POST_SMS_SEND = 'sinch.sms.post_send';
+    public const POST_SMS_SEND = 'sinch.sms.post_send';
 
     /**
      * This event is triggered callback from Sinch is received.
      *
      * @see \Fresh\SinchBundle\Event\SmsMessageCallbackEvent Listeners receive an instance of this class
      */
-    const CALLBACK_RECEIVED = 'sinch.callback.received';
+    public const CALLBACK_RECEIVED = 'sinch.callback.received';
 }

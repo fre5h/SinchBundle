@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Fresh\SinchBundle\Helper;
 
 /**
@@ -18,11 +20,9 @@ namespace Fresh\SinchBundle\Helper;
 class SinchSupportedCountries
 {
     /**
-     * @var array
-     *
-     * @static
+     * @const array
      */
-    const SUPPORTED_COUNTRIES = [
+    public const SUPPORTED_COUNTRIES = [
         'AF' => 'Afghanistan',
         'AM' => 'Armenia',
         'AR' => 'Argentina',
