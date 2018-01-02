@@ -1,7 +1,3 @@
-parameters:
-    sinch.controller.class: Fresh\SinchBundle\Controller\SinchController
-    sinch.service.class: Fresh\SinchBundle\Service\Sinch
-
 services:
     _defaults:
         autowire: true

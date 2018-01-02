@@ -8,6 +8,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Fresh\SinchBundle\Helper;
 
 /**
@@ -17,7 +19,7 @@ namespace Fresh\SinchBundle\Helper;
  */
 final class SinchCallbackEvents
 {
-    const INCOMING_SMS = 'incomingSms';
+    public const INCOMING_SMS = 'incomingSms';
 
     /**
      * Constructor.
