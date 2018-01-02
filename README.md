@@ -21,7 +21,7 @@ Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 ## Requirements
 
 * PHP 7.1 *and later*
-* Symfony 3.4 *and later*
+* Symfony 4.0 *and later*
 
 ## Installation
 
