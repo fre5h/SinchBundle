@@ -23,9 +23,9 @@ class ConfigurationTest extends TestCase
 {
     use ConfigurationTestCaseTrait;
 
-    public function testInvalidConfiguration()
+    public function testInvalidConfiguration(): void
     {
-        $this->assertConfigurationIsInvalid(
+        self::assertConfigurationIsInvalid(
             [
                 [
                     'invalid_parameter' => 123,
@@ -35,9 +35,9 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testValidDefaultConfiguration()
+    public function testValidDefaultConfiguration(): void
     {
-        $this->assertProcessedConfigurationEquals(
+        self::assertProcessedConfigurationEquals(
             [],
             [
                 'host' => 'https://messagingapi.sinch.com',
@@ -46,9 +46,9 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testValidConfigurationWithHost()
+    public function testValidConfigurationWithHost(): void
     {
-        $this->assertProcessedConfigurationEquals(
+        self::assertProcessedConfigurationEquals(
             [
                 [
                     'host' => 'https://test.com',
@@ -65,9 +65,9 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testValidConfigurationWithoutFrom()
+    public function testValidConfigurationWithoutFrom(): void
     {
-        $this->assertProcessedConfigurationEquals(
+        self::assertProcessedConfigurationEquals(
             [
                 [
                     'key' => '1234567890',
@@ -83,9 +83,9 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    public function testValidConfigurationWithFrom()
+    public function testValidConfigurationWithFrom(): void
     {
-        $this->assertProcessedConfigurationEquals(
+        self::assertProcessedConfigurationEquals(
             [
                 [
                     'key' => '1234567890',
@@ -102,7 +102,7 @@ class ConfigurationTest extends TestCase
         );
     }
 
-    protected function getConfiguration()
+    protected function getConfiguration(): Configuration
     {
         return new Configuration();
     }

@@ -10,6 +10,7 @@
 
 namespace Fresh\SinchBundle\Tests\Controller;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\EventDispatcher\Debug\TraceableEventDispatcher;
 use Symfony\Component\Form\Form;
@@ -27,109 +28,119 @@ class SinchControllerTest extends WebTestCase
 {
     public const DEFAULT_SINCH_CALLBACK_URL = '/sinch/callback';
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|TraceableEventDispatcher */
+    /** @var TraceableEventDispatcher|MockObject */
     private $eventDispatcher;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|FormFactory */
+    /** @var FormFactory|MockObject */
     private $formFactory;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject|Form */
+    /** @var Form|MockObject */
     private $form;
 
     /** @var SinchController */
     private $controller;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->eventDispatcher = $this->getMockBuilder(TraceableEventDispatcher::class)
-                                      ->disableOriginalConstructor()
-                                      ->setMethods(['dispatch'])
-                                      ->getMock();
-
-        $this->formFactory = $this->getMockBuilder(FormFactory::class)
-                                  ->disableOriginalConstructor()
-                                  ->setMethods(['create'])
-                                  ->getMock();
-
-        $this->form = $this->getMockBuilder(Form::class)
-                           ->disableOriginalConstructor()
-                           ->setMethods(['isValid', 'isSubmitted', 'handleRequest'])
-                           ->getMock();
-
-        $this->formFactory->expects($this->once())
-                          ->method('create')
-                          ->willReturn($this->form);
+        $this->eventDispatcher = $this->createMock(TraceableEventDispatcher::class);
+        $this->form = $this->createMock(Form::class);
+        $this->formFactory = $this->createMock(FormFactory::class);
+        $this->formFactory
+            ->expects(self::once())
+            ->method('create')
+            ->willReturn($this->form)
+        ;
 
         $this->controller = new SinchController($this->formFactory, $this->eventDispatcher);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
-        unset($this->formFactory);
-        unset($this->eventDispatcher);
-        unset($this->controller);
-        unset($this->form);
+        unset(
+            $this->eventDispatcher,
+            $this->form,
+            $this->formFactory,
+            $this->controller,
+        );
     }
 
-    public function testValidCallback()
+    public function testValidCallback(): void
     {
-        $this->form->expects($this->once())
-                   ->method('isSubmitted')
-                   ->willReturn(true);
+        $this->form
+            ->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(true)
+        ;
 
-        $this->form->expects($this->once())
-                   ->method('isValid')
-                   ->willReturn(true);
+        $this->form
+            ->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true)
+        ;
 
         $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
         $response = $this->controller->callbackAction($request);
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testNotSubmittedData()
+    public function testNotSubmittedData(): void
     {
-        $this->form->expects($this->once())
-                   ->method('isSubmitted')
-                   ->willReturn(false);
-        $this->form->expects($this->never())
-                   ->method('isValid');
+        $this->form
+            ->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(false)
+        ;
+        $this->form
+            ->expects($this->never())
+            ->method('isValid')
+        ;
 
         $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
         $response = $this->controller->callbackAction($request);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testNotValidData()
+    public function testNotValidData(): void
     {
-        $this->form->expects($this->once())
-                   ->method('isSubmitted')
-                   ->willReturn(true);
+        $this->form
+            ->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(true)
+        ;
 
-        $this->form->expects($this->once())
-                   ->method('isValid')
-                   ->willReturn(false);
+        $this->form
+            ->expects(self::once())
+            ->method('isValid')
+            ->willReturn(false)
+        ;
 
         $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
         $response = $this->controller->callbackAction($request);
-        $this->assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
     }
 
-    public function testInternalError()
+    public function testInternalError(): void
     {
-        $this->eventDispatcher->expects($this->once())
-                              ->method('dispatch')
-                              ->willThrowException(new \Exception());
+        $this->eventDispatcher
+            ->expects(self::once())
+            ->method('dispatch')
+            ->willThrowException(new \Exception())
+        ;
 
-        $this->form->expects($this->once())
-                   ->method('isSubmitted')
-                   ->willReturn(true);
+        $this->form
+            ->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(true)
+        ;
 
-        $this->form->expects($this->once())
-                   ->method('isValid')
-                   ->willReturn(true);
+        $this->form
+            ->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true)
+        ;
 
         $request = Request::create(self::DEFAULT_SINCH_CALLBACK_URL, 'POST');
         $response = $this->controller->callbackAction($request);
-        $this->assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertEquals(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 }

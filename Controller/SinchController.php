@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Fresh\SinchBundle\Controller;
 
-use Fresh\SinchBundle\Event\SinchEvents;
 use Fresh\SinchBundle\Event\SmsMessageCallbackEvent;
 use Fresh\SinchBundle\Form\Type\CallbackRequestType;
 use Fresh\SinchBundle\Model\CallbackRequest;
@@ -57,8 +56,7 @@ class SinchController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $event = new SmsMessageCallbackEvent($callbackRequest);
-                $this->eventDispatcher->dispatch(SinchEvents::CALLBACK_RECEIVED, $event);
+                $this->eventDispatcher->dispatch(new SmsMessageCallbackEvent($callbackRequest));
             } else {
                 return new Response('Bad Request', Response::HTTP_BAD_REQUEST);
             }

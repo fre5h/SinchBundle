@@ -21,27 +21,27 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class CallbackRequestTypeTest extends TypeTestCase
+class CallbackRequestTypeTest extends AbstractTypeTestCase
 {
-    public function testGetBlockPrefix()
+    public function testGetBlockPrefix(): void
     {
-        $this->assertEmpty((new CallbackRequestType)->getBlockPrefix());
+        self::assertEmpty((new CallbackRequestType)->getBlockPrefix());
     }
 
-    public function testFormBuilder()
+    public function testFormBuilder(): void
     {
         $form = $this->factory->createBuilder(CallbackRequestType::class)->getForm();
 
-        $this->assertEquals(6, $form->count());
-        $this->assertInstanceOf(FormInterface::class, $form->get('event'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('from'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('to'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('message'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('timestamp'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('version'));
+        self::assertEquals(6, $form->count());
+        self::assertInstanceOf(FormInterface::class, $form->get('event'));
+        self::assertInstanceOf(FormInterface::class, $form->get('from'));
+        self::assertInstanceOf(FormInterface::class, $form->get('to'));
+        self::assertInstanceOf(FormInterface::class, $form->get('message'));
+        self::assertInstanceOf(FormInterface::class, $form->get('timestamp'));
+        self::assertInstanceOf(FormInterface::class, $form->get('version'));
     }
 
-    public function testGetDefaultOptions()
+    public function testGetDefaultOptions(): void
     {
         $type = new CallbackRequestType();
 
@@ -51,11 +51,11 @@ class CallbackRequestTypeTest extends TypeTestCase
 
         $options = $optionResolver->resolve();
 
-        $this->assertFalse($options['csrf_protection']);
-        $this->assertEquals(CallbackRequest::class, $options['data_class']);
+        self::assertFalse($options['csrf_protection']);
+        self::assertEquals(CallbackRequest::class, $options['data_class']);
     }
 
-    public function testSubmitValidData()
+    public function testSubmitValidData(): void
     {
         $data = [
             'event' => 'incomingSms',
@@ -85,23 +85,23 @@ class CallbackRequestTypeTest extends TypeTestCase
         // Submit the data to the form directly
         $form->submit($data);
 
-        $this->assertTrue($form->isSynchronized());
+        self::assertTrue($form->isSynchronized());
 
-        /** @var \Fresh\SinchBundle\Model\CallbackRequest $formData */
+        /** @var CallbackRequest $formData */
         $formData = $form->getData();
-        $this->assertEquals($identity, $formData);
-        $this->assertInternalType('string', $formData->getEvent());
-        $this->assertInternalType('object', $formData->getFrom());
-        $this->assertInternalType('object', $formData->getTo());
-        $this->assertInternalType('string', $formData->getMessage());
-        $this->assertInternalType('object', $formData->getTimestamp());
-        $this->assertInternalType('integer', $formData->getVersion());
+        self::assertEquals($identity, $formData);
+        self::assertIsString($formData->getEvent());
+        self::assertIsObject($formData->getFrom());
+        self::assertIsObject($formData->getTo());
+        self::assertIsString($formData->getMessage());
+        self::assertIsObject($formData->getTimestamp());
+        self::assertIsInt($formData->getVersion());
 
         $view = $form->createView();
         $children = $view->children;
 
         foreach (\array_keys($data) as $key) {
-            $this->assertArrayHasKey($key, $children);
+            self::assertArrayHasKey($key, $children);
         }
     }
 }

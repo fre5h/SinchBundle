@@ -3,14 +3,9 @@ language: php
 sudo: false
 
 php:
-  - 7.1
-  - 7.2
   - 7.3
 
 env:
-  - SYMFONY_VERSION=4.0.*
-  - SYMFONY_VERSION=4.1.*
-  - SYMFONY_VERSION=4.2.*
   - SYMFONY_VERSION=4.3.*
 
 before_install:
@@ -23,6 +18,7 @@ install:
 script:
   - ./vendor/bin/phpcs ./ -p --encoding=utf-8 --extensions=php --ignore="vendor|Tests" --standard=./vendor/escapestudios/symfony2-coding-standard/Symfony
   - ./vendor/bin/phpunit -c phpunit.xml.dist --coverage-clover=coverage.xml
+  - ./vendor/bin/phpstan analyse -l 7 --no-progress -c phpstan.neon ./
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)

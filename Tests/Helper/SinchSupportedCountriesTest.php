@@ -20,13 +20,13 @@ use PHPUnit\Framework\TestCase;
  */
 class SinchSupportedCountriesTest extends TestCase
 {
-    public function testSupportedCountry()
+    public function testSupportedCountry(): void
     {
-        $this->assertTrue(SinchSupportedCountries::isCountrySupported('UA'));
+        self::assertTrue(SinchSupportedCountries::isCountrySupported('UA'));
     }
 
-    public function testUnsupportedCountry()
+    public function testUnsupportedCountry(): void
     {
-        $this->assertFalse(SinchSupportedCountries::isCountrySupported('YO'));
+        self::assertFalse(SinchSupportedCountries::isCountrySupported('YO'));
     }
 }

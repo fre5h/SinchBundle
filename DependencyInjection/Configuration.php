@@ -12,13 +12,14 @@ declare(strict_types=1);
 
 namespace Fresh\SinchBundle\DependencyInjection;
 
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Configuration.
  *
- * @author Artem Henvald  <genvaldartem@gmail.com>
+ * @author Artem Henvald <genvaldartem@gmail.com>
  */
 class Configuration implements ConfigurationInterface
 {
@@ -27,16 +28,19 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('fresh_sinch');
+        $treeBuilder = new TreeBuilder('fresh_sinch');
 
-        $rootNode
+        /** @var ArrayNodeDefinition $root */
+        $root = $treeBuilder->getRootNode();
+
+        $root
             ->children()
                 ->scalarNode('host')->defaultValue('https://messagingapi.sinch.com')->end()
                 ->scalarNode('key')->end()
                 ->scalarNode('secret')->end()
                 ->scalarNode('from')->defaultNull()->end()
-            ->end();
+            ->end()
+        ;
 
         return $treeBuilder;
     }

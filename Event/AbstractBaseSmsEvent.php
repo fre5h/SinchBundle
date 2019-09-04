@@ -12,14 +12,12 @@ declare(strict_types=1);
 
 namespace Fresh\SinchBundle\Event;
 
-use Symfony\Component\EventDispatcher\Event;
-
 /**
- * SmsEvent.
+ * AbstractBaseSmsEvent.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SmsEvent extends Event
+abstract class AbstractBaseSmsEvent
 {
     /** @var string */
     private $number;

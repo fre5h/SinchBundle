@@ -16,11 +16,11 @@ use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
 
 /**
- * TypeTestCase
+ * AbstractTypeTestCase.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-abstract class TypeTestCase extends FormIntegrationTestCase
+abstract class AbstractTypeTestCase extends FormIntegrationTestCase
 {
     /** @var FormBuilder */
     protected $builder;
@@ -28,7 +28,7 @@ abstract class TypeTestCase extends FormIntegrationTestCase
     /** @var EventDispatcher */
     protected $dispatcher;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -36,7 +36,7 @@ abstract class TypeTestCase extends FormIntegrationTestCase
         $this->builder = new FormBuilder(null, null, $this->dispatcher, $this->factory);
     }
 
-    public static function assertDateTimeEquals(\DateTime $expected, \DateTime $actual)
+    public static function assertDateTimeEquals(\DateTime $expected, \DateTime $actual): void
     {
         self::assertEquals($expected->format('c'), $actual->format('c'));
     }
