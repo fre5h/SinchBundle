@@ -1,6 +1,6 @@
 # SinchBundle
 
-Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
+:package: Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
 > **Currently in development process! Things can be changed at any moment!**
 
