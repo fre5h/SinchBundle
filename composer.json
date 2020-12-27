@@ -26,12 +26,12 @@
         "symfony/serializer-pack": "^1.0"
     },
     "require-dev": {
-        "escapestudios/symfony2-coding-standard": "^3.9",
+        "escapestudios/symfony2-coding-standard": "^3.11",
         "matthiasnoback/symfony-config-test": "^4.0",
-        "phpstan/phpstan": "^0.11",
-        "phpstan/phpstan-doctrine":"^0.11",
-        "phpstan/phpstan-phpunit": "^0.11",
-        "phpunit/phpunit": "^8.3"
+        "phpstan/phpstan": "^0.12",
+        "phpstan/phpstan-doctrine":"^0.12",
+        "phpstan/phpstan-phpunit": "^0.12",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
