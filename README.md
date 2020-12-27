@@ -7,7 +7,7 @@
 ![Sinch Logo](/Resources/images/sinch-logo.png)
 
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/fre5h/SinchBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/fre5h/SinchBundle/)
-[![Build Status](https://img.shields.io/travis/fre5h/SinchBundle/master.svg?style=flat-square)](https://travis-ci.org/fre5h/SinchBundle)
+[![Build Status](https://img.shields.io/travis/fre5h/SinchBundle/master.svg?style=flat-square)](https://travis-ci.com/fre5h/SinchBundle)
 [![CodeCov](https://img.shields.io/codecov/c/github/fre5h/SinchBundle.svg?style=flat-square)](https://codecov.io/github/fre5h/SinchBundle)
 [![License](https://img.shields.io/packagist/l/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![Latest Stable Version](https://img.shields.io/packagist/v/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
