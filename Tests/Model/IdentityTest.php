@@ -20,25 +20,25 @@ use PHPUnit\Framework\TestCase;
  */
 class IdentityTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $identity = new Identity();
 
-        $this->assertNull($identity->getType());
-        $this->assertNull($identity->getEndpoint());
+        self::assertNull($identity->getType());
+        self::assertNull($identity->getEndpoint());
     }
 
-    public function testSetGetType()
+    public function testSetGetType(): void
     {
         $type = 'number';
         $identity = (new Identity())->setType($type);
-        $this->assertEquals($type, $identity->getType());
+        self::assertEquals($type, $identity->getType());
     }
 
-    public function testSetGetEndpoint()
+    public function testSetGetEndpoint(): void
     {
         $endpoint = '+46700000000';
         $identity = (new Identity())->setEndpoint($endpoint);
-        $this->assertEquals($endpoint, $identity->getEndpoint());
+        self::assertEquals($endpoint, $identity->getEndpoint());
     }
 }

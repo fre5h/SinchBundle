@@ -12,17 +12,18 @@ declare(strict_types=1);
 
 namespace Fresh\SinchBundle\Service;
 
-use Fresh\SinchBundle\Event\SinchEvents;
-use Fresh\SinchBundle\Event\SmsEvent;
+use Fresh\SinchBundle\Event\PostSmsSendEvent;
+use Fresh\SinchBundle\Event\PreSmsSendEvent;
 use Fresh\SinchBundle\Exception\SinchException;
 use Fresh\SinchBundle\Helper\SinchSmsStatus;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 /**
- * Sinch Service.
+ * Sinch.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
@@ -32,11 +33,11 @@ class Sinch
 
     public const URL_FOR_CHECKING_SMS_STATUS = '/v1/message/status/';
 
-    /** @var Client */
-    private $guzzleHTTPClient;
-
     /** @var EventDispatcherInterface */
     private $dispatcher;
+
+    /** @var HttpClientInterface */
+    private $httpClient;
 
     /** @var string */
     private $host;
@@ -52,22 +53,20 @@ class Sinch
 
     /**
      * @param EventDispatcherInterface $dispatcher
+     * @param HttpClientInterface      $httpClient
      * @param string                   $host
      * @param string                   $key
      * @param string                   $secret
      * @param string|null              $from
      */
-    public function __construct(EventDispatcherInterface $dispatcher, $host, $key, $secret, $from = null)
+    public function __construct(EventDispatcherInterface $dispatcher, HttpClientInterface $httpClient, $host, $key, $secret, $from = null)
     {
         $this->dispatcher = $dispatcher;
+        $this->httpClient = $httpClient;
         $this->host = $host;
         $this->key = $key;
         $this->secret = $secret;
         $this->from = $from;
-
-        $this->guzzleHTTPClient = new Client([
-            'base_uri' => \rtrim($this->host, '/'),
-        ]);
     }
 
     /**
@@ -84,37 +83,38 @@ class Sinch
         // @todo validate phone number
 
         $body = [
-            'auth' => [$this->key, $this->secret],
-            'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')], // ISO 8601 date format
-            'json' => ['message' => $messageText],
+            'message' => $messageText,
         ];
 
         if (null !== $from) {
-            $body['json']['from'] = $from;
+            $body['from'] = $from;
         } elseif (null !== $this->from) {
             $from = $this->from;
-            $body['json']['from'] = $from;
+            $body['from'] = $from;
         }
 
-        try {
-            $smsEvent = new SmsEvent($phoneNumber, $messageText, $from);
+        $this->dispatcher->dispatch(new PreSmsSendEvent($phoneNumber, $messageText, $from));
 
-            $this->dispatcher->dispatch(SinchEvents::PRE_SMS_SEND, $smsEvent);
-            $response = $this->guzzleHTTPClient->post(self::URL_FOR_SENDING_SMS.$phoneNumber, $body);
-            $this->dispatcher->dispatch(SinchEvents::POST_SMS_SEND, $smsEvent);
-        } catch (ClientException $e) {
-            throw SinchExceptionResolver::createAppropriateSinchException($e);
-        }
+        $response = $this->httpClient->request(
+            Request::METHOD_POST,
+            self::URL_FOR_SENDING_SMS.$phoneNumber,
+            [
+                'auth_basic' => [$this->key, $this->secret],
+                'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
+                'json' => $body,
+            ]
+        );
+
+        $this->dispatcher->dispatch(new PostSmsSendEvent($phoneNumber, $messageText, $from));
 
         $messageId = null;
 
-        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type')
-            && 'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        $headers = $response->getHeaders();
+        if (Response::HTTP_OK === $response->getStatusCode() && isset($headers['Content-Type'])
+            && 'application/json; charset=utf-8' === $headers['Content-Type']
         ) {
-            $content = $response->getBody()->getContents();
-            $content = \json_decode($content, true);
-
-            if (isset($content['messageId']) && \array_key_exists('messageId', $content)) {
+            $content = \json_decode($response->getContent(), true);
+            if (\array_key_exists('messageId', $content)) {
                 $messageId = $content['messageId'];
             }
         }
@@ -132,7 +132,7 @@ class Sinch
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
         $result = '';
 
-        if (isset($response['status']) && \array_key_exists('status', $response)) {
+        if (\array_key_exists('status', $response)) {
             $result = $response['status'];
         }
 
@@ -149,7 +149,7 @@ class Sinch
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SinchSmsStatus::SUCCESSFUL === $response['status']) {
+        if (\array_key_exists('status', $response) && SinchSmsStatus::SUCCESSFUL === $response['status']) {
             $result = true;
         }
 
@@ -166,7 +166,7 @@ class Sinch
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SinchSmsStatus::PENDING === $response['status']) {
+        if (\array_key_exists('status', $response) && SinchSmsStatus::PENDING === $response['status']) {
             $result = true;
         }
 
@@ -183,7 +183,7 @@ class Sinch
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SinchSmsStatus::FAULTED === $response['status']) {
+        if (\array_key_exists('status', $response) && SinchSmsStatus::FAULTED === $response['status']) {
             $result = true;
         }
 
@@ -200,7 +200,7 @@ class Sinch
         $response = $this->sendRequestToCheckStatusOfSMS($messageId);
 
         $result = false;
-        if (isset($response['status']) && SinchSmsStatus::UNKNOWN === $response['status']) {
+        if (\array_key_exists('status', $response) && SinchSmsStatus::UNKNOWN === $response['status']) {
             $result = true;
         }
 
@@ -214,24 +214,22 @@ class Sinch
      */
     private function sendRequestToCheckStatusOfSMS(int $messageId): ?array
     {
-        $body = [
-            'auth' => [$this->key, $this->secret],
-            'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
-        ];
-
-        try {
-            $response = $this->guzzleHTTPClient->get(self::URL_FOR_CHECKING_SMS_STATUS.$messageId, $body);
-        } catch (ClientException $e) {
-            throw SinchExceptionResolver::createAppropriateSinchException($e);
-        }
+        $response = $this->httpClient->request(
+            Request::METHOD_GET,
+            self::URL_FOR_CHECKING_SMS_STATUS.$messageId,
+            [
+                'auth_basic' => [$this->key, $this->secret],
+                'headers' => ['X-Timestamp' => (new \DateTime('now'))->format('c')],
+            ]
+        );
 
         $result = null;
 
-        if (Response::HTTP_OK === $response->getStatusCode() && $response->hasHeader('Content-Type')
-            && 'application/json; charset=utf-8' === $response->getHeaderLine('Content-Type')
+        $headers = $response->getHeaders();
+        if (Response::HTTP_OK === $response->getStatusCode() && isset($headers['Content-Type'])
+            && 'application/json; charset=utf-8' === $headers['Content-Type']
         ) {
-            $content = $response->getBody()->getContents();
-            $result = \json_decode($content, true);
+            $result = \json_decode($response->getContent(), true);
         }
 
         return $result;

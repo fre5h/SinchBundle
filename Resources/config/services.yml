@@ -16,3 +16,6 @@ services:
 
     Fresh\SinchBundle\Service\Sinch:
         class: Fresh\SinchBundle\Service\Sinch
+
+    Symfony\Contracts\HttpClient\HttpClientInterface:
+        factory: ['Symfony\Component\HttpClient\HttpClient', 'create']

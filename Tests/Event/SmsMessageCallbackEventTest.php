@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class SmsMessageCallbackEventTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $event = 'incomingSms';
         $from = new Identity();
@@ -38,13 +38,14 @@ class SmsMessageCallbackEventTest extends TestCase
             ->setMessage($message)
             ->setTimestamp($timestamp)
             ->setVersion($version);
+
         $callbackEvent = new SmsMessageCallbackEvent($callbackRequest);
 
-        $this->assertEquals($event, $callbackEvent->getEvent());
-        $this->assertEquals($from, $callbackEvent->getFrom());
-        $this->assertEquals($to, $callbackEvent->getTo());
-        $this->assertEquals($message, $callbackEvent->getMessage());
-        $this->assertEquals($timestamp, $callbackEvent->getTimestamp());
-        $this->assertEquals($version, $callbackEvent->getVersion());
+        self::assertEquals($event, $callbackEvent->getEvent());
+        self::assertEquals($from, $callbackEvent->getFrom());
+        self::assertEquals($to, $callbackEvent->getTo());
+        self::assertEquals($message, $callbackEvent->getMessage());
+        self::assertEquals($timestamp, $callbackEvent->getTimestamp());
+        self::assertEquals($version, $callbackEvent->getVersion());
     }
 }

@@ -21,57 +21,57 @@ use PHPUnit\Framework\TestCase;
  */
 class CallbackRequestTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
         $callbackRequest = new CallbackRequest();
 
-        $this->assertNull($callbackRequest->getEvent());
-        $this->assertNull($callbackRequest->getFrom());
-        $this->assertNull($callbackRequest->getTo());
-        $this->assertNull($callbackRequest->getMessage());
-        $this->assertNull($callbackRequest->getTimestamp());
-        $this->assertNull($callbackRequest->getVersion());
+        self::assertNull($callbackRequest->getEvent());
+        self::assertNull($callbackRequest->getFrom());
+        self::assertNull($callbackRequest->getTo());
+        self::assertNull($callbackRequest->getMessage());
+        self::assertNull($callbackRequest->getTimestamp());
+        self::assertNull($callbackRequest->getVersion());
     }
 
-    public function testSetGetEvent()
+    public function testSetGetEvent(): void
     {
         $event = 'incomingSms';
         $callbackRequest = (new CallbackRequest())->setEvent($event);
-        $this->assertEquals($event, $callbackRequest->getEvent());
+        self::assertEquals($event, $callbackRequest->getEvent());
     }
 
-    public function testSetGetTo()
+    public function testSetGetTo(): void
     {
         $to = new Identity();
         $callbackRequest = (new CallbackRequest())->setTo($to);
-        $this->assertEquals($to, $callbackRequest->getTo());
+        self::assertEquals($to, $callbackRequest->getTo());
     }
 
-    public function testSetGetFrom()
+    public function testSetGetFrom(): void
     {
         $from = new Identity();
         $callbackRequest = (new CallbackRequest())->setFrom($from);
-        $this->assertEquals($from, $callbackRequest->getFrom());
+        self::assertEquals($from, $callbackRequest->getFrom());
     }
 
-    public function testSetGetMessage()
+    public function testSetGetMessage(): void
     {
         $message = 'Hello world';
         $callbackRequest = (new CallbackRequest())->setMessage($message);
-        $this->assertEquals($message, $callbackRequest->getMessage());
+        self::assertEquals($message, $callbackRequest->getMessage());
     }
 
-    public function testSetGetTimestamp()
+    public function testSetGetTimestamp(): void
     {
         $timestamp = new \DateTime('now');
         $callbackRequest = (new CallbackRequest())->setTimestamp($timestamp);
-        $this->assertEquals($timestamp, $callbackRequest->getTimestamp());
+        self::assertEquals($timestamp, $callbackRequest->getTimestamp());
     }
 
-    public function testSetGetVersion()
+    public function testSetGetVersion(): void
     {
         $version = 1;
         $callbackRequest = (new CallbackRequest())->setVersion($version);
-        $this->assertEquals($version, $callbackRequest->getVersion());
+        self::assertEquals($version, $callbackRequest->getVersion());
     }
 }

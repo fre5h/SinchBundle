@@ -31,20 +31,20 @@ class FreshSinchExtensionTest extends TestCase
     /** @var ContainerBuilder */
     private $container;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new FreshSinchExtension();
         $this->container = new ContainerBuilder();
         $this->container->registerExtension($this->extension);
     }
 
-    public function testLoadExtension()
+    public function testLoadExtension(): void
     {
         $yaml = <<<'CONFIG'
-fresh_sinch:
-    key: some_dummy_key
-    secret: some_dummy_secret
-CONFIG;
+            fresh_sinch:
+                key: some_dummy_key
+                secret: some_dummy_secret
+        CONFIG;
         $parser = new Parser();
         $config = $parser->parse($yaml);
 
@@ -54,19 +54,19 @@ CONFIG;
         $this->container->set('form.factory', new \stdClass());
         $this->container->compile();
 
-        $this->assertArrayHasKey(Sinch::class, $this->container->getRemovedIds());
-        $this->assertArrayHasKey(SinchController::class, $this->container->getRemovedIds());
+        self::assertArrayHasKey(Sinch::class, $this->container->getRemovedIds());
+        self::assertArrayHasKey(SinchController::class, $this->container->getRemovedIds());
 
-        $this->assertArrayNotHasKey(Sinch::class, $this->container->getDefinitions());
-        $this->assertArrayNotHasKey(SinchController::class, $this->container->getDefinitions());
+        self::assertArrayNotHasKey(Sinch::class, $this->container->getDefinitions());
+        self::assertArrayNotHasKey(SinchController::class, $this->container->getDefinitions());
 
         $this->expectException(ServiceNotFoundException::class);
         $this->container->get(Sinch::class);
         $this->container->get(SinchController::class);
 
-        $this->assertTrue($this->container->hasParameter('sinch.host'));
-        $this->assertTrue($this->container->hasParameter('sinch.key'));
-        $this->assertTrue($this->container->hasParameter('sinch.secret'));
-        $this->assertTrue($this->container->hasParameter('sinch.from'));
+        self::assertTrue($this->container->hasParameter('sinch.host'));
+        self::assertTrue($this->container->hasParameter('sinch.key'));
+        self::assertTrue($this->container->hasParameter('sinch.secret'));
+        self::assertTrue($this->container->hasParameter('sinch.from'));
     }
 }

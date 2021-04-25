@@ -20,23 +20,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class IdentityTypeTest extends TypeTestCase
+class IdentityTypeTest extends AbstractTypeTestCase
 {
-    public function testGetBlockPrefix()
+    public function testGetBlockPrefix(): void
     {
-        $this->assertEmpty((new IdentityType)->getBlockPrefix());
+        self::assertEmpty((new IdentityType())->getBlockPrefix());
     }
 
-    public function testFormBuilder()
+    public function testFormBuilder(): void
     {
         $form = $this->factory->createBuilder(IdentityType::class)->getForm();
 
-        $this->assertEquals(2, $form->count());
-        $this->assertInstanceOf(FormInterface::class, $form->get('type'));
-        $this->assertInstanceOf(FormInterface::class, $form->get('endpoint'));
+        self::assertEquals(2, $form->count());
+        self::assertInstanceOf(FormInterface::class, $form->get('type'));
+        self::assertInstanceOf(FormInterface::class, $form->get('endpoint'));
     }
 
-    public function testGetDefaultOptions()
+    public function testGetDefaultOptions(): void
     {
         $type = new IdentityType();
 
@@ -46,11 +46,11 @@ class IdentityTypeTest extends TypeTestCase
 
         $options = $optionResolver->resolve();
 
-        $this->assertFalse($options['csrf_protection']);
-        $this->assertEquals(Identity::class, $options['data_class']);
+        self::assertFalse($options['csrf_protection']);
+        self::assertEquals(Identity::class, $options['data_class']);
     }
 
-    public function testSubmitValidData()
+    public function testSubmitValidData(): void
     {
         $data = [
             'type' => 'number',
@@ -59,25 +59,27 @@ class IdentityTypeTest extends TypeTestCase
 
         $form = $this->factory->create(IdentityType::class);
 
-        $identity = (new Identity())->setType('number')
-                                    ->setEndpoint('+46700000000');
+        $identity = (new Identity())
+            ->setType('number')
+            ->setEndpoint('+46700000000')
+        ;
 
         // Submit the data to the form directly
         $form->submit($data);
 
-        $this->assertTrue($form->isSynchronized());
+        self::assertTrue($form->isSynchronized());
 
-        /** @var \Fresh\SinchBundle\Model\Identity $formData */
+        /** @var Identity $formData */
         $formData = $form->getData();
-        $this->assertEquals($identity, $formData);
-        $this->assertInternalType('string', $formData->getType());
-        $this->assertInternalType('string', $formData->getEndpoint());
+        self::assertEquals($identity, $formData);
+        self::assertIsString($formData->getType());
+        self::assertIsString($formData->getEndpoint());
 
         $view = $form->createView();
         $children = $view->children;
 
         foreach (\array_keys($data) as $key) {
-            $this->assertArrayHasKey($key, $children);
+            self::assertArrayHasKey($key, $children);
         }
     }
 }

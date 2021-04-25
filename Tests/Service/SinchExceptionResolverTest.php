@@ -21,7 +21,6 @@ use Fresh\SinchBundle\Exception\PaymentRequired\SinchPaymentRequiredException;
 use Fresh\SinchBundle\Exception\Unauthorized\SinchIllegalAuthorizationHeaderException;
 use Fresh\SinchBundle\Helper\SinchErrorCode;
 use Fresh\SinchBundle\Service\SinchExceptionResolver;
-use GuzzleHttp\Exception\ClientException;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -35,93 +34,102 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class SinchExceptionResolverTest extends TestCase
 {
-    public function testSinchParameterValidationException()
+    public function testSinchParameterValidationException(): void
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::PARAMETER_VALIDATION);
-        $this->assertInstanceOf(SinchParameterValidationException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchParameterValidationException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchInvalidRequestException()
+    public function testSinchInvalidRequestException(): void
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::INVALID_REQUEST);
-        $this->assertInstanceOf(SinchInvalidRequestException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchInvalidRequestException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchMissingParameterException()
+    public function testSinchMissingParameterException(): void
     {
         $e = $this->getClientException(Response::HTTP_BAD_REQUEST, SinchErrorCode::MISSING_PARAMETER);
-        $this->assertInstanceOf(SinchMissingParameterException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchMissingParameterException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchIllegalAuthorizationHeaderException()
+    public function testSinchIllegalAuthorizationHeaderException(): void
     {
         $e = $this->getClientException(Response::HTTP_UNAUTHORIZED, SinchErrorCode::ILLEGAL_AUTHORIZATION_HEADER);
-        $this->assertInstanceOf(SinchIllegalAuthorizationHeaderException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchIllegalAuthorizationHeaderException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchPaymentRequiredException()
+    public function testSinchPaymentRequiredException(): void
     {
         $e = $this->getClientException(Response::HTTP_PAYMENT_REQUIRED, SinchErrorCode::THERE_IS_NOT_ENOUGH_FUNDS_TO_SEND_THE_MESSAGE);
-        $this->assertInstanceOf(SinchPaymentRequiredException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchPaymentRequiredException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchForbiddenRequestException()
+    public function testSinchForbiddenRequestException(): void
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::FORBIDDEN_REQUEST);
-        $this->assertInstanceOf(SinchForbiddenRequestException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchForbiddenRequestException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchInvalidAuthorizationSchemeException()
+    public function testSinchInvalidAuthorizationSchemeException(): void
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::INVALID_AUTHORIZATION_SCHEME_FOR_CALLING_THE_METHOD);
-        $this->assertInstanceOf(SinchInvalidAuthorizationSchemeException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchInvalidAuthorizationSchemeException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchNoVerifiedPhoneNumberException()
+    public function testSinchNoVerifiedPhoneNumberException(): void
     {
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::NO_VERIFIED_PHONE_NUMBER_ON_YOUR_SINCH_ACCOUNT);
-        $this->assertInstanceOf(SinchNoVerifiedPhoneNumberException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchNoVerifiedPhoneNumberException::class, SinchExceptionResolver::createAppropriateSinchException($e));
 
         $e = $this->getClientException(Response::HTTP_FORBIDDEN, SinchErrorCode::SANDBOX_SMS_ONLY_ALLOWED_TO_BE_SENT_TO_VERIFIED_NUMBERS);
-        $this->assertInstanceOf(SinchNoVerifiedPhoneNumberException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchNoVerifiedPhoneNumberException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testSinchInternalErrorException()
+    public function testSinchInternalErrorException(): void
     {
         $e = $this->getClientException(Response::HTTP_INTERNAL_SERVER_ERROR, SinchErrorCode::INTERNAL_ERROR);
-        $this->assertInstanceOf(SinchInternalErrorException::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(SinchInternalErrorException::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
-    public function testStandardException()
+    public function testStandardException(): void
     {
         $e = $this->getClientException(Response::HTTP_GATEWAY_TIMEOUT, 0);
-        $this->assertInstanceOf(\Exception::class, SinchExceptionResolver::createAppropriateSinchException($e));
+        self::assertInstanceOf(\Exception::class, SinchExceptionResolver::createAppropriateSinchException($e));
     }
 
     /**
-     * Get client exception
-     *
      * @param int $statusCode Status code
      * @param int $errorCode  Error code
      *
      * @return ClientException
      */
-    private function getClientException($statusCode, $errorCode)
+    private function getClientException($statusCode, $errorCode): ClientException
     {
-        $request = $this->getMockBuilder(RequestInterface::class)->disableOriginalConstructor()->getMock();
-        $response = $this->getMockBuilder(ResponseInterface::class)->disableOriginalConstructor()->getMock();
-        $body = $this->getMockBuilder(StreamInterface::class)->disableOriginalConstructor()->getMock();
+        $request = $this->createMock(RequestInterface::class);
+        $response = $this->createMock(ResponseInterface::class);
+        $body = $this->createMock(StreamInterface::class);
 
-        $response->expects($this->once())->method('getStatusCode')->willReturn($statusCode);
-        $response->expects($this->once())->method('getBody')->will($this->returnValue($body));
+        $response
+            ->expects(self::once())
+            ->method('getStatusCode')
+            ->willReturn($statusCode)
+        ;
+        $response
+            ->expects(self::once())
+            ->method('getBody')
+            ->willReturn($body)
+        ;
 
-        $body->expects($this->once())->method('getContents')->will($this->returnValue(<<<JSON
-{
-    "errorCode": $errorCode,
-    "message": "Some message"
-}
-JSON
-        ));
+        $body
+            ->expects(self::once())
+            ->method('getContents')
+            ->willReturn(<<<JSON
+                {
+                    "errorCode": $errorCode,
+                    "message": "Some message"
+                }
+            JSON)
+        ;
 
         return new ClientException(null, $request, $response);
     }

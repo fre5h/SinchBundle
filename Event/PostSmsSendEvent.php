@@ -8,19 +8,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Service;
+declare(strict_types=1);
 
-use Fresh\SinchBundle\Service\Sinch;
+namespace Fresh\SinchBundle\Event;
 
 /**
- * SinchTest.
+ * PostSmsSendEvent.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SinchTest
+class PostSmsSendEvent extends AbstractBaseSmsEvent
 {
-    public function testSendSms(): void
-    {
-        // @todo
-    }
 }

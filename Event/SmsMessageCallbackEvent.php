@@ -14,14 +14,13 @@ namespace Fresh\SinchBundle\Event;
 
 use Fresh\SinchBundle\Model\CallbackRequest;
 use Fresh\SinchBundle\Model\Identity;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * SmsMessageCallbackEvent.
  *
  * @author Artem Henvald <genvaldartem@gmail.com>
  */
-class SmsMessageCallbackEvent extends Event
+class SmsMessageCallbackEvent
 {
     /** @var CallbackRequest */
     private $callbackRequest;

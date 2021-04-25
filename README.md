@@ -15,13 +15,10 @@
 [![StyleCI](https://styleci.io/repos/44092074/shield?style=flat-square)](https://styleci.io/repos/44092074)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/fre5h/SinchBundle)
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4/small.png)](https://insight.sensiolabs.com/projects/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4)
-[![knpbundles.com](http://knpbundles.com/fre5h/SinchBundle/badge-short)](http://knpbundles.com/fre5h/SinchBundle)
-
 ## Requirements
 
-* PHP 7.1 *and later*
-* Symfony 4.0 *and later*
+* PHP 7.3 *and later*
+* Symfony 4.3 *and later*
 
 ## Installation
 
