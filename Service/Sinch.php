@@ -75,9 +75,9 @@ class Sinch
      * @param string      $messageText
      * @param string|null $from
      *
-     * @return int Message ID
-     *
      * @throws SinchException
+     *
+     * @return int Message ID
      */
     public function sendSMS(string $phoneNumber, string $messageText, ?string $from = null): ?int
     {
