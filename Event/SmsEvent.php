@@ -83,7 +83,7 @@ class SmsEvent extends Event
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getFrom(): ?string
     {
@@ -91,7 +91,7 @@ class SmsEvent extends Event
     }
 
     /**
-     * @param null|string $from
+     * @param string|null $from
      *
      * @return $this
      */
