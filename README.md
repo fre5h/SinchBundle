@@ -2,8 +2,6 @@
 
 :package: Provides integration with **[Sinch.com](https://www.sinch.com)** SMS API.
 
-> **Currently in development process! Things can be changed at any moment!**
-
 ![Sinch Logo](/Resources/images/sinch-logo.png)
 
 [![Scrutinizer Quality Score](https://img.shields.io/scrutinizer/g/fre5h/SinchBundle.svg?style=flat-square)](https://scrutinizer-ci.com/g/fre5h/SinchBundle/)
@@ -14,9 +12,6 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/fresh/sinch-bundle.svg?style=flat-square)](https://packagist.org/packages/fresh/sinch-bundle)
 [![StyleCI](https://styleci.io/repos/44092074/shield?style=flat-square)](https://styleci.io/repos/44092074)
 [![Gitter](https://img.shields.io/badge/gitter-join%20chat-brightgreen.svg?style=flat-square)](https://gitter.im/fre5h/SinchBundle)
-
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4/small.png)](https://insight.sensiolabs.com/projects/2303fcfb-2e4b-45b3-8b37-6d1e7598acf4)
-[![knpbundles.com](http://knpbundles.com/fre5h/SinchBundle/badge-short)](http://knpbundles.com/fre5h/SinchBundle)
 
 ## Requirements
 
